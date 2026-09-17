@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P10_B05",
+  "type": "image",
+  "prompt": "Bashō seated on Kanmanji temple veranda watching clearing clouds reveal majestic snow-crested peak of Mount Chokai, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_kisakata_lagoon"
+  ],
+  "downloadedAt": "2026-09-12T04:57:27.456Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/17c3824c-5f2e-4f12-a836-ce95d1220dc4/edit/8d26e0d2-ff33-4249-929f-39e00d3130a6",
+  "status": "downloaded"
+}

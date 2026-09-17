@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P11_B06",
+  "type": "image",
+  "prompt": "Expansive view of Lake Biwa harvest fields: golden rice paddies, farmers harvesting grain, white sails on blue lake, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_shirakawa_barrier"
+  ],
+  "downloadedAt": "2026-09-12T05:28:09.678Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/1237c5b2-d9e7-4fee-8616-a99576eb6b4e/edit/71f5713c-bf0c-4b12-8e92-2cb7e3d1b0c1",
+  "status": "downloaded"
+}

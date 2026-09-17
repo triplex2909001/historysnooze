@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P11_B03",
+  "type": "image",
+  "prompt": "Bashō in simple travel robes quietly slipping away down a peaceful bamboo lane away from the crowded highway town, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_shirakawa_barrier",
+    "ref_props_travel_gear"
+  ],
+  "downloadedAt": "2026-09-12T05:16:44.828Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/c9ff43b9-9341-4011-96d8-d36b8b705885/edit/39df6e28-fba2-4f16-82e0-18fee36e3239",
+  "status": "downloaded"
+}

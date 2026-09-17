@@ -1,0 +1,27 @@
+{
+  "name": "HistorySnooze DevContainer",
+  "dockerComposeFile": [
+    "../docker/docker-compose.yml"
+  ],
+  "service": "sandbox",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "vscode"
+    },
+    "ghcr.io/devcontainers/features/python:3": {
+      "version": "3.11"
+    }
+  },
+  "postCreateCommand": "pip install -r docker/requirements.txt pre-commit && pre-commit install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}

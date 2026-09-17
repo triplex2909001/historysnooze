@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P03_B03",
+  "type": "image",
+  "prompt": "Planting the broad-leafed green banana tree in damp earth outside the rustic cedarwood veranda of the hermitage, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_fukagawa_interior",
+    "ref_props_basho_leaves"
+  ],
+  "downloadedAt": "2026-09-12T02:28:58.088Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/66ea482c-f9b5-45d2-bf69-9ba365b955ea/edit/ae7c7521-f6a1-444c-a6da-bd7b31e52763",
+  "status": "downloaded"
+}

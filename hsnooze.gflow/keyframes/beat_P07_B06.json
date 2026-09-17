@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P07_B06",
+  "type": "image",
+  "prompt": "Close view of swirling crystalline mountain stream water tumbling over mossy emerald granite riverbed boulders, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_nikko_cedars"
+  ],
+  "downloadedAt": "2026-09-12T03:48:36.682Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/4f619c1d-c997-49ce-a3d5-8c18e792612a/edit/31467c44-75d9-45d5-95c6-7c26946a2952",
+  "status": "downloaded"
+}

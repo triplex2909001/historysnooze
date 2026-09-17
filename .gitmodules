@@ -1,0 +1,6 @@
+[submodule "hsnooze.omni"]
+	path = hsnooze.omni
+	url = https://github.com/triplex2909001/hsnooze.omni.git
+[submodule "hsnooze.render"]
+	path = hsnooze.render
+	url = https://github.com/triplex2909001/hsnooze.render.git

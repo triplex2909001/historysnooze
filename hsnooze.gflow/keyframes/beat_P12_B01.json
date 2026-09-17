@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P12_B01",
+  "type": "image",
+  "prompt": "Rustic thatched mountain hut of Genjū-an nestled among towering green bamboo stalks on Mount Kokunjo, morning mist swirling, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_genjuan_bamboo"
+  ],
+  "downloadedAt": "2026-09-12T07:09:35.142Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/5ba48585-f8e5-4288-a25b-83cfdaeceb8d/edit/7b0ad4c4-20ed-4e29-99b6-0d289f3422e6",
+  "status": "downloaded"
+}

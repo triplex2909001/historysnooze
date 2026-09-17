@@ -1,0 +1,230 @@
+import type { Locator, Page } from "playwright";
+import { UiContractError } from "../errors.js";
+
+// Click the element marked with data-gflow-pick. The marking evaluate already proved the
+// element is attached, visible and sized, so when the normal click cannot pass Playwright's
+// actionability wait (rAF-based; throttled to a crawl in minimized/occluded windows even
+// with the anti-throttling launch flags), fall back to a forced — still trusted — click
+// rather than burning the 20s session default and silently giving up.
+async function clickMarked(page: Page): Promise<void> {
+  const marked = page.locator('[data-gflow-pick="1"]').first();
+  await marked.click({ timeout: 4000 }).catch(() => marked.click({ force: true, timeout: 2000 }).catch(() => undefined));
+  await page.evaluate(() => document.querySelector('[data-gflow-pick="1"]')?.removeAttribute("data-gflow-pick"));
+}
+
+// Mark the visible control whose trimmed text matches `pattern`, then real-click it.
+// Flow's controls live in React/Radix portals and ignore synthetic DOM .click(); a
+// trusted Playwright click on the marked element is honored.
+export async function pickOption(page: Page, pattern: RegExp): Promise<boolean> {
+  const marked = await page.evaluate(
+    ({ source, flags }) => {
+      const re = new RegExp(source, flags);
+      const el = [...document.querySelectorAll("button,[role=button],[role=radio],[role=menuitemradio],[role=option]")]
+        .filter((e) => {
+          const r = e.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        })
+        .find((b) => re.test((b.textContent || "").trim()));
+      if (!el) return false;
+      el.setAttribute("data-gflow-pick", "1");
+      return true;
+    },
+    { source: pattern.source, flags: pattern.flags }
+  );
+  if (!marked) return false;
+  await clickMarked(page);
+  await page.waitForTimeout(250);
+  return true;
+}
+
+// Open a model dropdown (arrow_drop_down) and pick the option whose name matches
+// `model` with punctuation/spacing stripped, so "nano-banana-pro" matches "Nano Banana Pro".
+// Verified: after selecting, the dropdown trigger must show the requested model. A pick can
+// fail silently (the option click swallows errors), and continuing would generate with the
+// previous model and waste credits — so retry once, then fail loudly. `reopen` restores the
+// container holding the dropdown (e.g. the settings popover, which the inter-attempt
+// dismissOpenLayers closes); callers whose dropdown sits directly on the page omit it.
+export async function pickModel(page: Page, model: string, reopen?: () => Promise<void>): Promise<void> {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (attempt > 0) {
+      await dismissOpenLayers(page);
+      await reopen?.();
+    }
+    if (!(await pickOption(page, /arrow_drop_down/))) {
+      if (attempt === 0) return; // no model dropdown here (e.g. the fixture) — keep current settings
+      break;
+    }
+    // Wait for the menu's options to mount instead of a fixed pause (the settings popover is
+    // itself role=menu, but only the model menu has menuitem children). Fall through on
+    // timeout so a markup change degrades to the old fixed-wait behavior.
+    await page
+      .locator("[role=menu][data-state=open] [role=menuitem]")
+      .first()
+      .waitFor({ state: "visible", timeout: 3000 })
+      .catch(() => page.waitForTimeout(700));
+    await selectModelOption(page, model);
+    if (await modelTriggerShows(page, model)) return;
+  }
+  // Leave no half-open layers behind: a popover left over the prompt box would silently
+  // poison the next command's applySettings.
+  await dismissOpenLayers(page);
+  throw new UiContractError(`Could not select model "${model}" in Flow. Check the model name against the models Flow currently offers.`);
+}
+
+// True when a visible model-dropdown trigger (the arrow_drop_down button) displays `model`,
+// i.e. the selection actually took effect.
+async function modelTriggerShows(page: Page, model: string): Promise<boolean> {
+  const target = model.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return page.evaluate((t) => {
+    const norm = (s: string | null) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    return [...document.querySelectorAll("button")]
+      .filter((b) => {
+        const r = b.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && /arrow_drop_down/.test(b.textContent || "");
+      })
+      .some((b) => norm(b.textContent).includes(t));
+  }, target);
+}
+
+// Choose a model from an ALREADY-OPEN model menu (matches the option whose name equals
+// `model` with punctuation/spacing stripped). Split out from pickModel so callers that
+// open the dropdown themselves (e.g. a section-scoped Agent Settings dropdown) don't
+// re-open and accidentally close it.
+export async function selectModelOption(page: Page, model: string): Promise<void> {
+  const target = model.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const marked = await page.evaluate((t) => {
+    const norm = (s: string | null) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const el = [...document.querySelectorAll("[role=option],[role=menuitem],[role=menuitemradio],button,li")]
+      .filter((e) => {
+        const r = e.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+      })
+      .find((e) => t.length > 2 && norm(e.textContent).includes(t));
+    if (!el) return false;
+    el.setAttribute("data-gflow-pick", "1");
+    return true;
+  }, target);
+  if (marked) {
+    await clickMarked(page);
+  } else {
+    await page.keyboard.press("Escape").catch(() => undefined);
+  }
+  await page.waitForTimeout(300);
+}
+
+// Close every lingering Radix layer (settings popover, model dropdown, tooltips). Escape
+// dismisses one layer at a time, and a leftover layer swallows pointer events aimed at the
+// prompt box underneath — the cause of "gflow video sticks until I click the page myself".
+// Loop until no popper wrapper is visible (bounded, in case a layer ignores Escape).
+export async function dismissOpenLayers(page: Page): Promise<void> {
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    // :visible matters: Radix and CDK leave stale hidden wrappers in the DOM.
+    const open = await page
+      .locator(
+        "[data-radix-popper-content-wrapper]:visible, [data-radix-menu-content][data-state=open]:visible, .cdk-overlay-backdrop-showing, .cdk-overlay-pane:has(button):visible"
+      )
+      .first()
+      .isVisible()
+      .catch(() => false);
+    if (!open) return;
+    await page.keyboard.press("Escape").catch(() => undefined);
+    await page.waitForTimeout(250);
+  }
+}
+
+export const FLOW_BASE = "https://labs.google/fx/tools/flow";
+export type ProjectSub = "" | "characters" | "tools" | "create-tool";
+
+export function projectIdFromUrl(url: string): string | undefined {
+  const m = url.match(/\/project\/([a-z0-9-]+)/i);
+  return m ? m[1] : undefined;
+}
+
+export function projectSubUrl(projectId: string, sub: ProjectSub | string): string {
+  return `${FLOW_BASE}/project/${projectId}${sub ? `/${sub}` : ""}`;
+}
+
+// Ensure the page is inside a project and return its id. When `projectName` is given,
+// open that named project from the dashboard; otherwise use the project already open
+// (or open/create one, matching FlowPage.ensureProject's older behavior).
+export async function navigateToProject(page: Page, projectName?: string): Promise<string> {
+  const current = projectIdFromUrl(page.url());
+  if (current && (!projectName || current === projectName)) return current;
+
+  if (projectName) {
+    if (/^[a-z0-9-]+$/i.test(projectName)) {
+      const targetUrl = page.url().includes("flow.google.com")
+        ? `https://flow.google.com/project/${projectName}`
+        : `${FLOW_BASE}/project/${projectName}`;
+      await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForURL(/\/project\/[a-z0-9-]+/i, { timeout: 20000 }).catch(() => undefined);
+      const opened = projectIdFromUrl(page.url());
+      if (opened) return opened;
+    }
+
+    // The dashboard renders each project as a thumbnail <a href="…/project/<id>"> with the
+    // name/timestamp in a sibling label (projects are named by timestamp unless renamed),
+    // so match the card whose surrounding label contains the name and open it by href.
+    await page.goto(FLOW_BASE, { waitUntil: "domcontentloaded" });
+    await page.locator('a[href*="/project/"]').first().waitFor({ state: "visible", timeout: 15000 }).catch(() => undefined);
+    const href = await page.evaluate((name) => {
+      const linkSel = 'a[href*="/project/"]';
+      for (const a of [...document.querySelectorAll(linkSel)]) {
+        const linkHref = a.getAttribute("href") || "";
+        if (linkHref.includes(name)) return linkHref;
+        // Climb to the largest ancestor that still wraps exactly this one card (its label
+        // sibling lives there), without reaching the grid that holds every card.
+        let card: Element = a;
+        while (card.parentElement && card.parentElement.querySelectorAll(linkSel).length === 1) {
+          card = card.parentElement;
+        }
+        if ((card.textContent || "").includes(name)) return a.getAttribute("href");
+      }
+      return null;
+    }, projectName);
+    if (!href) throw new Error(`Could not find a Flow project matching "${projectName}".`);
+    await page.goto(new URL(href, FLOW_BASE).toString(), { waitUntil: "domcontentloaded" });
+    await page.waitForURL(/\/project\/[a-z0-9-]+/i, { timeout: 20000 }).catch(() => undefined);
+    const opened = projectIdFromUrl(page.url());
+    if (!opened) throw new Error(`Could not open project "${projectName}".`);
+    return opened;
+  }
+
+  // No name, not in a project: open existing project or create the first project.
+  const existingProject = page.locator('a[href*="/project/"]').first();
+  if (await existingProject.count()) {
+    await existingProject.click().catch(() => undefined);
+    await page.waitForURL(/\/project\/[a-z0-9-]+/i, { timeout: 20000 }).catch(() => undefined);
+  }
+  let id = projectIdFromUrl(page.url());
+  if (id) return id;
+
+  const newProject = page.getByRole("button", { name: /new project/i }).first();
+  if (await newProject.count()) {
+    await newProject.click().catch(() => undefined);
+    await page.waitForURL(/\/project\/[a-z0-9-]+/i, { timeout: 20000 }).catch(() => undefined);
+  }
+  id = projectIdFromUrl(page.url());
+  if (!id) throw new Error("No Flow project is open and one could not be created.");
+  return id;
+}
+
+export async function confirmPicker(page: Page, dialog?: Locator): Promise<void> {
+  const confirm = (dialog ? dialog.locator("button") : page.locator("button"))
+    .filter({ hasText: /add to (prompt|scene|character|frame)|^add$|^select$|^confirm$|^done$/i })
+    .or(page.locator("button.detail-add-to-prompt-btn"))
+    .first();
+  if (await confirm.isVisible({ timeout: 4000 }).catch(() => false)) {
+    await confirm.click().catch(() => undefined);
+  }
+  if (dialog) {
+    await dialog.waitFor({ state: "hidden", timeout: 5000 }).catch(async () => {
+      await page.keyboard.press("Escape").catch(() => undefined);
+    });
+  }
+  const backdrop = page.locator(".cdk-overlay-backdrop");
+  if (await backdrop.isVisible().catch(() => false)) {
+    await page.keyboard.press("Escape").catch(() => undefined);
+    await backdrop.waitFor({ state: "hidden", timeout: 3000 }).catch(() => undefined);
+  }
+}

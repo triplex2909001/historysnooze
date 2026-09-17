@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-09-11T17:09:18.281Z",
+  "updatedAt": "2026-09-11T17:09:18.287Z",
+  "completed": [
+    "concept-image",
+    "hero-video"
+  ],
+  "failed": [],
+  "artifacts": {
+    "concept-image": [],
+    "hero-video": []
+  },
+  "activeProfile": "default"
+}

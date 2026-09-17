@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P15_B02",
+  "type": "image",
+  "prompt": "Serene mountain hermitage overlooking calm moonlit valley, warm amber lanterns glowing peacefully in distance, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_withered_moor"
+  ],
+  "downloadedAt": "2026-09-12T08:22:25.391Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/3422f751-4686-4953-a38f-f671798cbfd8/edit/67b9199a-3e6b-47b8-b0d0-074bcdeed0b2",
+  "status": "downloaded"
+}

@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P03_B05",
+  "type": "image",
+  "prompt": "Serene panoramic view through open shoji screen: broad green banana leaves swaying gracefully over tidal marsh grasses, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_fukagawa_interior",
+    "ref_props_basho_leaves"
+  ],
+  "downloadedAt": "2026-09-12T02:31:55.765Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/66ea482c-f9b5-45d2-bf69-9ba365b955ea/edit/279b4f0c-0733-4872-b8ed-2113ced8870d",
+  "status": "downloaded"
+}

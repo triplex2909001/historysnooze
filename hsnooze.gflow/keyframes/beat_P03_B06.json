@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P03_B06",
+  "type": "image",
+  "prompt": "Bashō seated quietly on cedar veranda in evening twilight, holding a simple ceramic tea bowl as dusk gathers over marshlands, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_fukagawa_interior"
+  ],
+  "downloadedAt": "2026-09-12T02:33:18.528Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/66ea482c-f9b5-45d2-bf69-9ba365b955ea/edit/1f45e4b1-e1d0-43c1-a62a-da64b4a6bd02",
+  "status": "downloaded"
+}

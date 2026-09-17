@@ -1,0 +1,12 @@
+{
+  "jobId": "ref_setting_withered_moor",
+  "type": "image",
+  "prompt": "Transcendent poetic dreamscape of a vast withered autumn tallgrass moor beneath a quiet lavender and indigo twilight sky, solitary winding spirit path disappearing into boundless horizon, faint silver crescent moon and glittering River of Heaven (Milky Way) arching overhead, eternal peaceful stillness, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "downloadedAt": "2026-09-12T00:45:33.820Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/72098065-1c2e-4633-aba9-c113a487d2e3/edit/da63a9f3-0463-4d00-8e37-f761d6c01945",
+  "status": "downloaded"
+}

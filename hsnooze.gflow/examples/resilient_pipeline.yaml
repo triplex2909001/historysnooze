@@ -1,0 +1,47 @@
+pipeline:
+  name: Cuoc San Lung Trong Dem Neo-Tokyo
+  profiles:
+    - default
+  autoheal: true
+  resume: true
+jobs:
+  - id: scene_01
+    type: video
+    prompt: "[Marcus] dac vu cong nghe ranh ma buoc ra tu con hem toi trong man mua
+      lanh gia. Camera tracking muot ma bam sat buoc chan cua anh.. smooth
+      cinematic tracking shot following the subject, steady camera movement,
+      maintaining visual consistency for character 'Marcus', photorealistic 8k
+      UHD, high dynamic range, exquisite textural detail, master shot."
+    ratio: 16:9
+    out: ./out
+    duration: 8
+    character:
+      - Marcus
+  - id: scene_02
+    type: video
+    prompt: "[Marcus] quan sat toa nha Arasaka Cyber Tower voi anh den neon xanh tim
+      phan chieu tren ao khoac da. Dramatic dolly in ve phia guong mat tram tu..
+      slow dramatic dolly zoom inward pushing toward the focal point, vibrant
+      neon rim lighting, reflections on wet surfaces, deep moody shadows,
+      maintaining visual consistency for character 'Marcus', photorealistic 8k
+      UHD, high dynamic range, exquisite textural detail, master shot."
+    ratio: 16:9
+    out: ./out
+    duration: 8
+    character:
+      - Marcus
+    dependsOn:
+      - scene_01
+  - id: scene_03
+    type: video
+    prompt: "[Marcus] bat thiet bi quet laser cam ung khong gian va xam nhap he
+      thong an ninh.. cinematic fluid camera movement, 24fps motion cadence,
+      maintaining visual consistency for character 'Marcus', photorealistic 8k
+      UHD, high dynamic range, exquisite textural detail, master shot."
+    ratio: 16:9
+    out: ./out
+    duration: 8
+    character:
+      - Marcus
+    dependsOn:
+      - scene_02

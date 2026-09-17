@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P01_B03",
+  "type": "image",
+  "prompt": "Twilight deepening into indigo night, evening breeze carrying moisture of mountain streams, first stars glittering in pine branches, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_young"
+  ],
+  "ingredients": [
+    "ref_setting_iga_ueno"
+  ],
+  "downloadedAt": "2026-09-12T01:24:50.756Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/1d342166-2313-4652-b5d6-b8b35c9de3ad/edit/17a3cf39-7418-4516-8f00-a4dab539a83b",
+  "status": "downloaded"
+}

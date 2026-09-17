@@ -1,0 +1,118 @@
+{
+  "createdAt": "2026-09-11T17:04:14.268Z",
+  "updatedAt": "2026-09-12T00:49:10.009Z",
+  "completed": [
+    "ref_character_basho",
+    "ref_character_basho_young",
+    "ref_character_sora",
+    "ref_setting_fukagawa_interior",
+    "ref_setting_tohoku_trail",
+    "ref_props_inkstone_brush",
+    "ref_character_basho_traveler",
+    "ref_character_basho_elder",
+    "ref_character_buccho",
+    "ref_setting_iga_ueno",
+    "ref_setting_edo_nihonbashi",
+    "ref_setting_fukagawa_exterior",
+    "ref_setting_fuji_river_trail",
+    "ref_setting_senju_dock",
+    "ref_setting_nikko_cedars",
+    "ref_setting_yamadera_temple",
+    "ref_setting_mogami_river",
+    "ref_setting_kisakata_lagoon",
+    "ref_setting_shirakawa_barrier",
+    "ref_setting_genjuan_bamboo",
+    "ref_setting_kyoto_rakushisha",
+    "ref_setting_tokaido_highway",
+    "ref_setting_withered_moor",
+    "ref_props_travel_gear",
+    "ref_props_basho_leaves",
+    "ref_props_tea_hearth_irori",
+    "ref_props_travel_oi"
+  ],
+  "failed": [],
+  "artifacts": {
+    "ref_character_basho": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_basho-001.jpeg"
+    ],
+    "ref_character_basho_young": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_basho_young-001.jpeg"
+    ],
+    "ref_character_sora": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_sora-001.jpeg"
+    ],
+    "ref_setting_fukagawa_interior": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_fukagawa_interior-001.jpeg"
+    ],
+    "ref_setting_tohoku_trail": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_tohoku_trail-001.jpeg"
+    ],
+    "ref_props_inkstone_brush": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_props_inkstone_brush-001.jpeg"
+    ],
+    "ref_character_basho_traveler": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_basho_traveler-001.jpeg"
+    ],
+    "ref_character_basho_elder": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_basho_elder-001.jpeg"
+    ],
+    "ref_character_buccho": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_character_buccho-001.jpeg"
+    ],
+    "ref_setting_iga_ueno": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_iga_ueno-001.jpeg"
+    ],
+    "ref_setting_edo_nihonbashi": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_edo_nihonbashi-001.jpeg"
+    ],
+    "ref_setting_fukagawa_exterior": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_fukagawa_exterior-001.jpeg"
+    ],
+    "ref_setting_fuji_river_trail": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_fuji_river_trail-001.jpeg"
+    ],
+    "ref_setting_senju_dock": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_senju_dock-001.jpeg"
+    ],
+    "ref_setting_nikko_cedars": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_nikko_cedars-001.jpeg"
+    ],
+    "ref_setting_yamadera_temple": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_yamadera_temple-001.jpeg"
+    ],
+    "ref_setting_mogami_river": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_mogami_river-001.jpeg"
+    ],
+    "ref_setting_kisakata_lagoon": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_kisakata_lagoon-001.jpeg"
+    ],
+    "ref_setting_shirakawa_barrier": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_shirakawa_barrier-001.jpeg"
+    ],
+    "ref_setting_genjuan_bamboo": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_genjuan_bamboo-001.jpeg"
+    ],
+    "ref_setting_kyoto_rakushisha": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_kyoto_rakushisha-001.jpeg"
+    ],
+    "ref_setting_tokaido_highway": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_tokaido_highway-001.jpeg"
+    ],
+    "ref_setting_withered_moor": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_setting_withered_moor-001.jpeg"
+    ],
+    "ref_props_travel_gear": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_props_travel_gear-001.jpeg"
+    ],
+    "ref_props_basho_leaves": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_props_basho_leaves-001.jpeg"
+    ],
+    "ref_props_tea_hearth_irori": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_props_tea_hearth_irori-001.jpeg"
+    ],
+    "ref_props_travel_oi": [
+      "/Users/hanario/Documents/HistorySnooze/hsnooze.gflow/references/ref_props_travel_oi-001.jpeg"
+    ]
+  },
+  "activeProfile": "default"
+}

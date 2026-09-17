@@ -1,0 +1,32 @@
+# ==============================================================================
+# HistorySnooze Git Pre-Commit Security & Hygiene Configuration
+# Authorities:
+# - Documents/Structure/01_ARCHITECTURE_CONSTRAINED_AI.md
+# - Documents/Structure/03_SECURE_ISOLATION_VAULT.md
+# - Documents/Structure/08_PROJECT_HYGIENE_AND_BACKUP_SPECIFICATION.md
+# ==============================================================================
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+        name: Detect Hardcoded Secrets (Gitleaks)
+        entry: gitleaks protect --verbose --redact --staged
+        language: golang
+        pass_filenames: false
+        stages: [pre-commit, pre-push]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        name: Block Large File Commits (>500KB)
+        args: ['--maxkb=500']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace

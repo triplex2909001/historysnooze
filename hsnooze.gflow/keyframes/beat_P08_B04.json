@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P08_B04",
+  "type": "image",
+  "prompt": "Bashō seated on flat mountain rock ledge, inkstone and brush unrolled, composing famous cicada verse on paper, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_yamadera_temple",
+    "ref_props_inkstone_brush"
+  ],
+  "downloadedAt": "2026-09-12T04:10:16.809Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/bbcccb9b-e347-43b2-a18d-545546c8b64d/edit/8622a538-4023-44ec-aa2a-8b02ca01f0aa",
+  "status": "downloaded"
+}

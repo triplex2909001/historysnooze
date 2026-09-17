@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P09_B02",
+  "type": "image",
+  "prompt": "Bashō and Sora stepping into slender cedarwood river boat, boatmen in straw mino raincapes holding long steering oars, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_traveler"
+  ],
+  "ingredients": [
+    "ref_setting_mogami_river",
+    "ref_props_travel_gear"
+  ],
+  "downloadedAt": "2026-09-12T04:29:14.952Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/a262645b-0ad0-42db-85cb-c07706a91524/edit/3d787687-7e8e-4d50-9de7-3299dd733cb4",
+  "status": "downloaded"
+}

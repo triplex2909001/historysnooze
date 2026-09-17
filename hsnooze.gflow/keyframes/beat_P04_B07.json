@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P04_B07",
+  "type": "image",
+  "prompt": "Close portrait of Bashō's calm face reflecting serene acceptance and spiritual detachment amidst morning mist, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_fukagawa_exterior"
+  ],
+  "downloadedAt": "2026-09-12T02:56:50.215Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/2b23a3c4-9bb1-4e66-b601-80ea09a3a745/edit/dbdfcbb6-8802-4fa3-b051-0d4b8e2eeafa",
+  "status": "downloaded"
+}

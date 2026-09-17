@@ -1,0 +1,12 @@
+{
+  "jobId": "ref_character_sora",
+  "type": "image",
+  "prompt": "Full-body portrait of Kawai Sora, faithful disciple and traveling companion of Matsuo Basho, thirty-five years old, earnest calm face, shaved crown with short neat hair in Buddhist layman style, wearing simple dark charcoal hemp robes with sleeves tied up for walking, carrying a woven straw backpack (oi) strapped across shoulders holding travel journals and ink, wearing straw sandals (waraji) on dusty feet, standing quietly beside a mountain marker, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "downloadedAt": "2026-09-11T17:06:39.067Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/f9609f79-73a3-4074-a8bf-161ed86f41a8/edit/cd296780-b715-4e3b-875d-4be8c85fd0de",
+  "status": "downloaded"
+}

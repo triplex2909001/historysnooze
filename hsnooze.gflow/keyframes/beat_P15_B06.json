@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P15_B06",
+  "type": "image",
+  "prompt": "Tranquil candlelit tatami room, sliding paper shoji open to reveal cool starry night and tranquil bamboo shadows, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_withered_moor"
+  ],
+  "downloadedAt": "2026-09-12T08:37:11.962Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/a9927dfa-9a0d-46a3-a7ee-667127ecaefc/edit/41d538a0-1fe6-4254-979e-36328bbe8f27",
+  "status": "downloaded"
+}

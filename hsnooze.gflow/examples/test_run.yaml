@@ -1,0 +1,12 @@
+pipeline:
+  name: Test Resilient Pipeline
+  profiles:
+    - default
+  autoheal: true
+  resume: true
+jobs:
+  - id: test_hero_image
+    type: image
+    prompt: 'Cinematic portrait of a majestic golden cyber dragon flying over neon clouds, 8k resolution, photorealistic master shot'
+    ratio: '16:9'
+    out: './out'

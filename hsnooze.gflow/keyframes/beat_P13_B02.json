@@ -1,0 +1,19 @@
+{
+  "jobId": "beat_P13_B02",
+  "type": "image",
+  "prompt": "Gathering of poetry disciples around Master Bashō in second-story Kyoto room overlooking Kamo River, studying scrolls, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_kyoto_rakushisha",
+    "ref_props_inkstone_brush"
+  ],
+  "downloadedAt": "2026-09-12T07:26:09.837Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/8fe4cdae-7077-496b-b85f-116b99b049e5/edit/a25d1165-84cf-47fa-995c-97e6d5d43a17",
+  "status": "downloaded"
+}

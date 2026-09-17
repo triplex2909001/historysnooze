@@ -1,0 +1,413 @@
+{
+  "status": "PASS",
+  "source_files_count": 1555,
+  "destination_files_count": 1650,
+  "perfect_matches": 1512,
+  "approved_refactors_count": 43,
+  "approved_additions_count": 95,
+  "unapproved_mismatches_count": 0,
+  "missing_in_dst_count": 0,
+  "chunk_size_bytes": 65536,
+  "approved_refactors": [
+    {
+      "file": "00.codebases/beat_aligner.py",
+      "src_hash": "56cf9840f25f96dfede6c0c7125c067fc551d979ae809f4b8de63f5ac69f16d9",
+      "dst_hash": "632776c51b9816b4071df8de1f8afa1428be04c64b8997e1d8b3dc9396c99333",
+      "src_size": 6699,
+      "dst_size": 3485
+    },
+    {
+      "file": "00.codebases/chunk_renderer.py",
+      "src_hash": "5620c69d9d678e7bda555378cc8817cc52c400e0623032f4525a1f199a7009f5",
+      "dst_hash": "ca8091754abbb3c449bf798fa03cd60bc883d9513f61638c24aa2abe17fcd172",
+      "src_size": 14247,
+      "dst_size": 5230
+    },
+    {
+      "file": "00.codebases/colab_part_worker.py",
+      "src_hash": "53834e305e9ac2e4c599b608342ea14fd9ff4d0cf08c7bee8e14096a1ef1a3e8",
+      "dst_hash": "9845d257930e52c61d977784f47a133b5ac8039d029ec437a8f7e9d160985a6b",
+      "src_size": 4613,
+      "dst_size": 4731
+    },
+    {
+      "file": "00.codebases/colab_render_runner.py",
+      "src_hash": "54bf6b137b7df9dffeef09c0c2a245f61f37778a38ca7e88e99e35e5f2cba1f0",
+      "dst_hash": "7a02f05b1fb8155ea46e43784f569b1c2530037d3d118ffb3a4b6c3598d9aa38",
+      "src_size": 10913,
+      "dst_size": 5721
+    },
+    {
+      "file": "00.codebases/colab_voiceover_runner.py",
+      "src_hash": "0d589d122ea95ea92912687cb93f8a1811f943912a65503d2ca5b4425b6cb328",
+      "dst_hash": "28bcd230098b5ddb27ab0c2ffe49525107cddb4278b1d85775fc2b33a941626f",
+      "src_size": 7642,
+      "dst_size": 4772
+    },
+    {
+      "file": "00.codebases/cue_extractor.py",
+      "src_hash": "d3bb31eafd243df6c2fddc31efc4e3f8d0afd06f5db1717155ce0b98227c1aad",
+      "dst_hash": "440998e5d030df6eb4ac3e0528d5317154b0df8dadc401dbe5820a2abc7c47c8",
+      "src_size": 8138,
+      "dst_size": 5452
+    },
+    {
+      "file": "00.codebases/download_drive_assets.py",
+      "src_hash": "c122ae22a635c37d30779210d1bc7461751921b9e491566768c2c275b8c441da",
+      "dst_hash": "739786d9d631592c6d817dbeec0dedf88545b816d0f909c69a897c28463ef9e4",
+      "src_size": 10009,
+      "dst_size": 6116
+    },
+    {
+      "file": "00.codebases/generate_ambient_stardust.py",
+      "src_hash": "af5b762535052e0f46ab22601062678a152d03d62f8e7b3b0f0872d40d3988dc",
+      "dst_hash": "734d520c683d3fcd4ba7ae5ac1b54ecab4afef295b95a3663d75029926b119d1",
+      "src_size": 8369,
+      "dst_size": 4225
+    },
+    {
+      "file": "00.codebases/image_pipeline_worker.py",
+      "src_hash": "21158c55f1d0dfef6040e3dfeef0f2399fe866bf8c2a47b3020e0f2661172802",
+      "dst_hash": "4786605a6349982d72e8f0213b9bc7e38bde89ff5f32d0e2f74f2bc28600bdb5",
+      "src_size": 7231,
+      "dst_size": 3437
+    },
+    {
+      "file": "00.codebases/kenburns_asmr.py",
+      "src_hash": "f69b5e0726b0422bb8399958a6979a57936f4124c06e161d54dc53fea8c872ec",
+      "dst_hash": "dd3c3e36a4b78877f32899325ab4c120e528bae274be5cb00720d016b13d4020",
+      "src_size": 13156,
+      "dst_size": 5067
+    },
+    {
+      "file": "00.codebases/online_script_producer.py",
+      "src_hash": "c7ff59352954726feb6d72558b83ae8957f3b1d73a13da140bdd6deb36061be2",
+      "dst_hash": "8e395849f39af2e3ae371dfc6d974fcdb182bfb0aa3f644f967314a4c7dd5722",
+      "src_size": 69639,
+      "dst_size": 1474
+    },
+    {
+      "file": "00.codebases/pipeline_orchestrator.py",
+      "src_hash": "e7c3560fe498fe17d57fd8a946c7e0599fb41e4f31f73849ae1a3ebb947ae1eb",
+      "dst_hash": "dea91d8e059647f4adffcf3b90b568ffafb861682666e0f307d549190b186a85",
+      "src_size": 24617,
+      "dst_size": 4963
+    },
+    {
+      "file": "00.codebases/prompt_engine.py",
+      "src_hash": "7e6a1b5766677782a60aa6042845f12d5b0f07b3b7869d086c94e12fc2df2aa4",
+      "dst_hash": "aaf60a1ed595fd83447860e8f77d3a2696a9aa6336750bd4076c3889f3a92483",
+      "src_size": 39855,
+      "dst_size": 1503
+    },
+    {
+      "file": "00.codebases/render_single_part.py",
+      "src_hash": "2bf2bfa4c64fd8ea5090e346c81cb4edd671cd2292ded9c7425a96890f9206f8",
+      "dst_hash": "0795967188649fb01cdce22f6e37b9fe63c924563f28288565061a63150b38b0",
+      "src_size": 13563,
+      "dst_size": 4513
+    },
+    {
+      "file": "00.codebases/voice_chunk_engine.py",
+      "src_hash": "2f0d153899f530dadaf09413c2b10cd2ffa2e7f1caa08858957ad3aa4de5f935",
+      "dst_hash": "f4b4efc43a48c5829970e123a573d17cb7c5412b1f5b7fb84b720786717e135d",
+      "src_size": 16280,
+      "dst_size": 1079
+    },
+    {
+      "file": "hsnooze.gflow/check_gflow_page.py",
+      "src_hash": "000fb82a226685813a4aa8692ba3aac81fd8e098694adfc48172f74a54b1304b",
+      "dst_hash": "44b134b7b83bb36b7a4c8dd5be9ca1faef086b80e904a0e8dd3742a4eb481b6b",
+      "src_size": 980,
+      "dst_size": 1034
+    },
+    {
+      "file": "hsnooze.gflow/debug_state.py",
+      "src_hash": "c27458be3f96f2898ecd6ba2d78e1434e6a786cdb2613b43a717c1cf4917a485",
+      "dst_hash": "bffbed144183bed5b12fdc3c278c22c35625853182b12954226fec34b7fa82ba",
+      "src_size": 2805,
+      "dst_size": 2917
+    },
+    {
+      "file": "hsnooze.gflow/inspect_cdp.ts",
+      "src_hash": "55352cc5a99c4885303de249bca73de3f326680b51a58feffdb3cec34edbe727",
+      "dst_hash": "c1ead1268886e25851072b5b3b8f2994fa8fd8bea6a45a736be8aa95b1636585",
+      "src_size": 1062,
+      "dst_size": 1103
+    },
+    {
+      "file": "hsnooze.gflow/inspect_project_editor.ts",
+      "src_hash": "a1c2588d92622f3d788635cbfac06b824316be214f8ec7babf0f7fa0ac8863f5",
+      "dst_hash": "6e79ce1d3e64e43511f80829de5ebb6a59087f1d7e7413bfb2d4b6e65f4ada38",
+      "src_size": 2119,
+      "dst_size": 2160
+    },
+    {
+      "file": "hsnooze.gflow/inspect_submit_btn.ts",
+      "src_hash": "87f02243f85f2eeaf6188ed5051a51477e1acee99f54d261bbe82c4faa6618b2",
+      "dst_hash": "4cce46d3840e2aaae077ff3727ae143d3e26d7d6f9507aeff6cc51eeef8b3547",
+      "src_size": 1111,
+      "dst_size": 1152
+    },
+    {
+      "file": "hsnooze.gflow/inspect_vids.py",
+      "src_hash": "c46a2918841f5d1534f3a441d11fbe3650815a688492d525e501e287f244f7cf",
+      "dst_hash": "851cdd551f1acf15d265a8d0e0c73b072126d1f1cb6deb4edf21480b48653eb4",
+      "src_size": 1198,
+      "dst_size": 1252
+    },
+    {
+      "file": "hsnooze.gflow/inspect_vids.ts",
+      "src_hash": "91b76e1cf918925fc5e5f58513b8e829ddb2602b325f452836b4dd310ee1cffe",
+      "dst_hash": "2b43a729744885b5f7c0430c7e4ab861c572a6c93612a1bbc82f45998e871fc2",
+      "src_size": 1051,
+      "dst_size": 1092
+    },
+    {
+      "file": "hsnooze.gflow/scratch_debug.py",
+      "src_hash": "6b85957f54dba35efb9a8c134eb42b46c201dfd90f1bf4c8b35632dadb207149",
+      "dst_hash": "dd53992a5436f3060f7edc2ea17437ba1107ef4886af3daeb0b86ca21ca20676",
+      "src_size": 1309,
+      "dst_size": 1474
+    },
+    {
+      "file": "hsnooze.gflow/setup_alternate_profile.py",
+      "src_hash": "f7d7d300192311f257c6bec062215fc2ce7c234147768a057e788dd9af3103d1",
+      "dst_hash": "f9685f4e49de68dc2efa805190a79f75fc6f542d7d928e910ce45a185481b399",
+      "src_size": 2920,
+      "dst_size": 3005
+    },
+    {
+      "file": "hsnooze.gflow/.gflow/profile-states.json",
+      "src_hash": "75776e4024537c4799cc079fd459422aa367ce2a1ac84d84c5241b9d391acd4a",
+      "dst_hash": "d0c908ffa1d4266b3deda5e680d9d2d23f12fb92df6c878bb1943c585b395ea1",
+      "src_size": 715,
+      "dst_size": 715
+    },
+    {
+      "file": "hsnooze.omni/colab_part_worker.py",
+      "src_hash": "53834e305e9ac2e4c599b608342ea14fd9ff4d0cf08c7bee8e14096a1ef1a3e8",
+      "dst_hash": "9845d257930e52c61d977784f47a133b5ac8039d029ec437a8f7e9d160985a6b",
+      "src_size": 4613,
+      "dst_size": 4731
+    },
+    {
+      "file": "hsnooze.omni/colab_voiceover_runner.py",
+      "src_hash": "0d589d122ea95ea92912687cb93f8a1811f943912a65503d2ca5b4425b6cb328",
+      "dst_hash": "28bcd230098b5ddb27ab0c2ffe49525107cddb4278b1d85775fc2b33a941626f",
+      "src_size": 7642,
+      "dst_size": 4772
+    },
+    {
+      "file": "hsnooze.omni/voice_chunk_engine.py",
+      "src_hash": "2f0d153899f530dadaf09413c2b10cd2ffa2e7f1caa08858957ad3aa4de5f935",
+      "dst_hash": "f4b4efc43a48c5829970e123a573d17cb7c5412b1f5b7fb84b720786717e135d",
+      "src_size": 16280,
+      "dst_size": 1079
+    },
+    {
+      "file": "hsnooze.render/beat_aligner.py",
+      "src_hash": "56cf9840f25f96dfede6c0c7125c067fc551d979ae809f4b8de63f5ac69f16d9",
+      "dst_hash": "632776c51b9816b4071df8de1f8afa1428be04c64b8997e1d8b3dc9396c99333",
+      "src_size": 6699,
+      "dst_size": 3485
+    },
+    {
+      "file": "hsnooze.render/chunk_renderer.py",
+      "src_hash": "5620c69d9d678e7bda555378cc8817cc52c400e0623032f4525a1f199a7009f5",
+      "dst_hash": "ca8091754abbb3c449bf798fa03cd60bc883d9513f61638c24aa2abe17fcd172",
+      "src_size": 14247,
+      "dst_size": 5230
+    },
+    {
+      "file": "hsnooze.render/colab_render_runner.py",
+      "src_hash": "54bf6b137b7df9dffeef09c0c2a245f61f37778a38ca7e88e99e35e5f2cba1f0",
+      "dst_hash": "7a02f05b1fb8155ea46e43784f569b1c2530037d3d118ffb3a4b6c3598d9aa38",
+      "src_size": 10913,
+      "dst_size": 5721
+    },
+    {
+      "file": "hsnooze.render/cue_extractor.py",
+      "src_hash": "d3bb31eafd243df6c2fddc31efc4e3f8d0afd06f5db1717155ce0b98227c1aad",
+      "dst_hash": "440998e5d030df6eb4ac3e0528d5317154b0df8dadc401dbe5820a2abc7c47c8",
+      "src_size": 8138,
+      "dst_size": 5452
+    },
+    {
+      "file": "hsnooze.render/download_drive_assets.py",
+      "src_hash": "c122ae22a635c37d30779210d1bc7461751921b9e491566768c2c275b8c441da",
+      "dst_hash": "739786d9d631592c6d817dbeec0dedf88545b816d0f909c69a897c28463ef9e4",
+      "src_size": 10009,
+      "dst_size": 6116
+    },
+    {
+      "file": "hsnooze.render/generate_ambient_stardust.py",
+      "src_hash": "af5b762535052e0f46ab22601062678a152d03d62f8e7b3b0f0872d40d3988dc",
+      "dst_hash": "734d520c683d3fcd4ba7ae5ac1b54ecab4afef295b95a3663d75029926b119d1",
+      "src_size": 8369,
+      "dst_size": 4225
+    },
+    {
+      "file": "hsnooze.render/image_pipeline_worker.py",
+      "src_hash": "21158c55f1d0dfef6040e3dfeef0f2399fe866bf8c2a47b3020e0f2661172802",
+      "dst_hash": "4786605a6349982d72e8f0213b9bc7e38bde89ff5f32d0e2f74f2bc28600bdb5",
+      "src_size": 7231,
+      "dst_size": 3437
+    },
+    {
+      "file": "hsnooze.render/kenburns_asmr.py",
+      "src_hash": "f69b5e0726b0422bb8399958a6979a57936f4124c06e161d54dc53fea8c872ec",
+      "dst_hash": "dd3c3e36a4b78877f32899325ab4c120e528bae274be5cb00720d016b13d4020",
+      "src_size": 13156,
+      "dst_size": 5067
+    },
+    {
+      "file": "hsnooze.render/pipeline_orchestrator.py",
+      "src_hash": "e7c3560fe498fe17d57fd8a946c7e0599fb41e4f31f73849ae1a3ebb947ae1eb",
+      "dst_hash": "dea91d8e059647f4adffcf3b90b568ffafb861682666e0f307d549190b186a85",
+      "src_size": 24617,
+      "dst_size": 4963
+    },
+    {
+      "file": "hsnooze.render/render_single_part.py",
+      "src_hash": "2bf2bfa4c64fd8ea5090e346c81cb4edd671cd2292ded9c7425a96890f9206f8",
+      "dst_hash": "0795967188649fb01cdce22f6e37b9fe63c924563f28288565061a63150b38b0",
+      "src_size": 13563,
+      "dst_size": 4513
+    },
+    {
+      "file": "tests/test_adversarial_m_a_challenger1.py",
+      "src_hash": "6de6704beab08ce83e369835f696475f5a0857cbb32662e776b1bb2428b91977",
+      "dst_hash": "5c95bd180e71664becb32e0d458e435ab1edd0191fe9bc9c7f1853f5f0cfc1d4",
+      "src_size": 21854,
+      "dst_size": 21849
+    },
+    {
+      "file": "tests/test_adversarial_m_b_challenger1.py",
+      "src_hash": "bc65c7030c0d2d35b7707a5306871b2eaa77421a4edab99f6ea007dfc4a7f18d",
+      "dst_hash": "53d31a7e5d9dea381a8aadb93f0a83ab24ebd82ffce238d775c589a3ad568847",
+      "src_size": 18003,
+      "dst_size": 18316
+    },
+    {
+      "file": "tests/test_dual_operation_parity.py",
+      "src_hash": "e9945625e17bba3c9d23e655d81dc97ad5e9ebfa1a82abecdc86d5ca885bc57f",
+      "dst_hash": "65da7a48ab2e0f338385142b3beac27c10b1fd36e51285489b8dfc326b7bae23",
+      "src_size": 9597,
+      "dst_size": 9780
+    },
+    {
+      "file": "tests/test_vault_security.py",
+      "src_hash": "6c19ef0f97ae3c8fcca672aaa9a079d7b4b17a2f58d0270f8f69241bcce34182",
+      "dst_hash": "cdd8157545ee29a1b8b50efaff4c9d8892a26f2d5c94130bd8a7122868702879",
+      "src_size": 17755,
+      "dst_size": 20159
+    },
+    {
+      "file": "tests/test_visual_consistency.py",
+      "src_hash": "9667919ba9b45c7e972a5ee5d2ca41ffd0a1e8b6c5b93abe1f2c4442fe323ead",
+      "dst_hash": "cbc84d6b33cb67ffcff35ede3982400597d44c6fc57fb79895dc0721411f7c5e",
+      "src_size": 24991,
+      "dst_size": 25197
+    }
+  ],
+  "unapproved_mismatches": [],
+  "missing_in_dst": [],
+  "approved_additions": [
+    ".pre-commit-config.yaml",
+    "monitor.py",
+    "GATEKEEPERS.md",
+    ".gitignore",
+    "run.sh",
+    "docker/requirements.txt",
+    "docker/Dockerfile",
+    "docker/docker-compose.yml",
+    "hsnooze.omni/voice_chunk_pipeline.py",
+    "hsnooze.omni/voice_omnivoice_backend.py",
+    "hsnooze.omni/voice_text_processor.py",
+    "hsnooze.omni/colab_voice_env.py",
+    "hsnooze.omni/voice_acoustic_auditor.py",
+    "00.codebases/orchestrator_gk3_auditor.py",
+    "00.codebases/drive_extractor.py",
+    "00.codebases/colab_render_cli.py",
+    "00.codebases/chunk_asset_resolver.py",
+    "00.codebases/tar_archive_guard.py",
+    "00.codebases/image_prompt_parser.py",
+    "00.codebases/network_retry.py",
+    "00.codebases/voice_chunk_pipeline.py",
+    "00.codebases/part_asset_resolver.py",
+    "00.codebases/voice_omnivoice_backend.py",
+    "00.codebases/stardust_particle_sim.py",
+    "00.codebases/image_remote_sync.py",
+    "00.codebases/chunk_resource_manager.py",
+    "00.codebases/orchestrator_gk6_auditor.py",
+    "00.codebases/voice_text_processor.py",
+    "00.codebases/chunk_cleaner.py",
+    "00.codebases/colab_voice_env.py",
+    "00.codebases/voice_acoustic_auditor.py",
+    "00.codebases/cue_silence_scanner.py",
+    "00.codebases/orchestrator_artifact_linker.py",
+    "00.codebases/kenburns_command_builder.py",
+    "00.codebases/retry_handler.py",
+    "00.codebases/colab_render_env.py",
+    "00.codebases/orchestrator_stage_manager.py",
+    "00.codebases/beat_align_core.py",
+    "00.codebases/kenburns_filters.py",
+    "00.codebases/prompt_engine_modules/cultural_anchors.py",
+    "00.codebases/prompt_engine_modules/anchor_characters.py",
+    "00.codebases/prompt_engine_modules/anchor_registry.py",
+    "00.codebases/prompt_engine_modules/prompt_builder.py",
+    "00.codebases/prompt_engine_modules/anchor_settings_part2.py",
+    "00.codebases/prompt_engine_modules/anchor_props.py",
+    "00.codebases/prompt_engine_modules/tag_ops.py",
+    "00.codebases/prompt_engine_modules/prompt_validator.py",
+    "00.codebases/prompt_engine_modules/__init__.py",
+    "00.codebases/prompt_engine_modules/anchor_settings_part1.py",
+    "00.codebases/script_producer_modules/canonical_beats_p07_p09.py",
+    "00.codebases/script_producer_modules/models.py",
+    "00.codebases/script_producer_modules/canonical_beats_p04_p06.py",
+    "00.codebases/script_producer_modules/canonical_beats_p01_p03.py",
+    "00.codebases/script_producer_modules/exporter.py",
+    "00.codebases/script_producer_modules/segmenter.py",
+    "00.codebases/script_producer_modules/text_segmenter.py",
+    "00.codebases/script_producer_modules/canonical_beats_p10_p12.py",
+    "00.codebases/script_producer_modules/__init__.py",
+    "00.codebases/script_producer_modules/network_clients.py",
+    "00.codebases/script_producer_modules/canonical_beats_p13_p15.py",
+    "00.codebases/script_producer_modules/runner.py",
+    "00.codebases/script_producer_modules/canonical_beats.py",
+    ".secrets/token.json",
+    ".secrets/.env",
+    ".secrets/telegram_bot.env",
+    ".secrets/credentials.json",
+    "scripts/mount_ram_vault.sh",
+    "scripts/auto_backup.py",
+    "scripts/isolate_vpsg24gb.sh",
+    "tests/test_gatekeepers_and_backup.py",
+    "tests/test_adversarial_m4_challenger1.py",
+    "tests/test_devcontainer_and_monitor.py",
+    "tests/test_omni_workers_refactoring.py",
+    "tests/test_isolate_vpsg24gb.py",
+    ".devcontainer/devcontainer.json",
+    "hsnooze.render/orchestrator_gk3_auditor.py",
+    "hsnooze.render/drive_extractor.py",
+    "hsnooze.render/colab_render_cli.py",
+    "hsnooze.render/chunk_asset_resolver.py",
+    "hsnooze.render/tar_archive_guard.py",
+    "hsnooze.render/image_prompt_parser.py",
+    "hsnooze.render/network_retry.py",
+    "hsnooze.render/part_asset_resolver.py",
+    "hsnooze.render/stardust_particle_sim.py",
+    "hsnooze.render/image_remote_sync.py",
+    "hsnooze.render/chunk_resource_manager.py",
+    "hsnooze.render/orchestrator_gk6_auditor.py",
+    "hsnooze.render/chunk_cleaner.py",
+    "hsnooze.render/cue_silence_scanner.py",
+    "hsnooze.render/orchestrator_artifact_linker.py",
+    "hsnooze.render/kenburns_command_builder.py",
+    "hsnooze.render/colab_render_env.py",
+    "hsnooze.render/orchestrator_stage_manager.py",
+    "hsnooze.render/beat_align_core.py",
+    "hsnooze.render/kenburns_filters.py"
+  ]
+}

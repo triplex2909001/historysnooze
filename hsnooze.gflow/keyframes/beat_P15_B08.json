@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P15_B08",
+  "type": "image",
+  "prompt": "Inviting, comfortable sleeping futon with thick indigo cotton quilt laid out neatly on fragrant rush tatami mats, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_elder"
+  ],
+  "ingredients": [
+    "ref_setting_withered_moor"
+  ],
+  "downloadedAt": "2026-09-12T08:49:04.766Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/b676597b-cdc5-40e4-a13c-c6510321c89f/edit/034b3733-80b9-4362-ac76-b23016629d82",
+  "status": "downloaded"
+}

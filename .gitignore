@@ -1,0 +1,95 @@
+# ==============================================================================
+# HistorySnooze Strict .gitignore (Zero-Leak & Project Hygiene Specification)
+# Authorities:
+# - Documents/Structure/01_ARCHITECTURE_CONSTRAINED_AI.md
+# - Documents/Structure/03_SECURE_ISOLATION_VAULT.md
+# - Documents/Structure/08_PROJECT_HYGIENE_AND_BACKUP_SPECIFICATION.md
+# ==============================================================================
+
+# --- Secrets & Credentials Vault (Zero-Leak) ---
+.secrets/
+.secrets
+credentials/
+credentials.json
+*credentials*.json
+*client_secret*.json
+token.json
+*token*.json
+tokens/
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+*.cert
+*.crt
+project_vault.enc
+.vault/
+/dev/shm/.vault
+
+# --- Environment Configuration Files ---
+.env
+*.env
+.env.*
+!.env.example
+
+# --- Python Bytecode & Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Virtual Environments ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Node & Browser Automation ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.gflow/profiles/
+.gflow/sessions/
+profiles/
+
+# --- Temporary & Intermediate Build Artifacts ---
+temp/
+tmp/
+*.tmp
+*.temp
+output/
+artifacts/
+*.mp4
+*.wav
+*.mp3
+*.m4a
+.codebase-memory/
+.gstack/
+*.db
+*.sqlite
+*.sqlite3
+dist/
+build/
+*.egg-info/
+.system_generated/
+
+# --- Logs ---
+logs/
+*.log
+*.log.*
+
+# --- OS & Editor Metadata ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json

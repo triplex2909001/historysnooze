@@ -1,0 +1,30 @@
+pipeline:
+  name: Matsuo Kinsaku Prologue Beats
+  profiles:
+    - default
+  autoheal: true
+  resume: true
+jobs:
+  - id: beat_P01_B01
+    type: image
+    prompt: 'Young Matsuo Kinsaku walking quietly along a winding mountain trail on the outskirts of Ueno Castle in Iga Province at lavender twilight, feathery Japanese red pines bordering the path, mist rising in the valley, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)'
+    ratio: '16:9'
+    out: './out'
+
+  - id: beat_P01_B02
+    type: image
+    prompt: 'Young samurai heir Todo Yoshitada and Kinsaku seated on woven tatami mats in a tranquil castle chamber overlooking a raked gravel garden, composing linked verse scrolls under a warm oil lamp, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)'
+    ratio: '16:9'
+    out: './out'
+
+  - id: beat_P01_B03
+    type: image
+    prompt: 'A detailed close-up of a dark slate inkstone with drops of well water and fragrant pine-soot ink, a fine badger-hair writing brush resting on handmade mulberry paper, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)'
+    ratio: '16:9'
+    out: './out'
+
+  - id: beat_P01_B04
+    type: image
+    prompt: 'A quiet provincial castle courtyard in moonlight, low earthen walls with dark ceramic roof tiles, tall bamboo swaying in the night breeze, a stone lantern glowing softly, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)'
+    ratio: '16:9'
+    out: './out'

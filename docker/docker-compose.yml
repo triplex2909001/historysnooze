@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  sandbox:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: historysnooze-sandbox
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /dev/shm:rw,noexec,nosuid,size=64m
+    volumes:
+      - ..:/workspace:cached
+      - /media/vpsg16gb/Media/historysnooze/.secrets:/workspace/.secrets:ro
+    working_dir: /workspace
+    user: "1000:1000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HSNOOZE_DATA_DIR=/workspace
+      - TELEGRAM_BOT_TOKEN_PATH=/workspace/.secrets/telegram/bot_token.txt
+      - GDRIVE_TOKEN_PATH=/workspace/.secrets/gdrive/token.json

@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P02_B10",
+  "type": "image",
+  "prompt": "Master Tōsei seated on straw sleeping mat in deep peaceful meditation, soft moonlight casting grid shadows across tatami, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_young"
+  ],
+  "ingredients": [
+    "ref_setting_edo_nihonbashi"
+  ],
+  "downloadedAt": "2026-09-12T02:22:14.908Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/347b879a-0800-4f96-81c9-67a2a9350d18/edit/d4ef905b-337c-41ec-94d8-d890346dfeb3",
+  "status": "downloaded"
+}

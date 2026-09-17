@@ -1,0 +1,65 @@
+{
+  "name": "@swissmarley/gflow-cli",
+  "version": "1.1.1",
+  "description": "Command-line tool that drives Google Flow in your own logged-in Chrome to generate images and videos.",
+  "type": "module",
+  "bin": {
+    "gflow": "./dist/src/index.js"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:flow-fixture": "vitest run tests/flow.fixture.test.ts",
+    "doctor": "tsx src/index.ts doctor",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "keywords": [
+    "google-flow",
+    "flow",
+    "veo",
+    "cli",
+    "video-generation",
+    "image-generation",
+    "text-to-video",
+    "playwright",
+    "automation"
+  ],
+  "author": "swissmarley",
+  "license": "MIT",
+  "homepage": "https://github.com/swissmarley/gflow-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swissmarley/gflow-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swissmarley/gflow-cli/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "playwright": "^1.44.0",
+    "yaml": "^2.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "@types/node": "^20.14.2",
+    "eslint": "^9.4.0",
+    "tsx": "^4.15.1",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^1.6.0"
+  }
+}

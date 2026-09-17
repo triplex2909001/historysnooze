@@ -1,0 +1,15 @@
+pipeline:
+  name: Test Single Image
+  profiles:
+    - default
+    - profile_3
+    - profile_4
+    - profile_13
+  autoheal: true
+  resume: true
+jobs:
+  - id: test_beat_01
+    type: image
+    prompt: 'Young Julie d Aubigny standing in the misty courtyard of the Grand Stables of Versailles at golden sunrise, classical French stone arches, morning mist rising from cobblestones, warm atmospheric sunlight, wide cinematic 16:9 composition, ultra-high-resolution 4K'
+    ratio: '16:9'
+    out: '/tmp/test_gflow_out'

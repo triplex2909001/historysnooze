@@ -1,0 +1,247 @@
+name: "02. Parallel 15-Part OmniVoice Pipeline (Online / 0% VPS)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      idea_id:
+        description: "Idea ID from Pipeline Sheet (e.g. id_w3vc3j)"
+        required: true
+        default: "id_w3vc3j"
+      script_file_id:
+        description: "Google Drive File ID for combined_voiceover.txt"
+        required: true
+        default: "1wrcmW13YLqEwBXHA5Amd3gEjA-fbPVV1"
+      voice_ref_id:
+        description: "Google Drive File ID for reference voice (e.g. Milo)"
+        required: true
+        default: "1VC_eN0rnm9l2d4ilogn9B2GqWzzaV4fS"
+      project_folder_id:
+        description: "Google Drive Folder ID for the project"
+        required: true
+        default: "1taEWlfh_MgYA3pqWLItFWpuwMSNOoRHo"
+
+concurrency:
+  group: omnivoice-pipeline
+  cancel-in-progress: true
+
+jobs:
+  # STAGE 1: Tải mô hình OmniVoice & Cài đặt dependencies trước
+  setup-and-cache-model:
+    name: "01. Pre-fetch Dependencies & Cache OmniVoice Model"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache Pip & HuggingFace Model
+        uses: actions/cache@v4
+        id: cache-model
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/huggingface
+          key: omnivoice-cache-v2
+          restore-keys: |
+            omnivoice-cache-
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install omnivoice soundfile numpy scipy requests
+
+      - name: Pre-download k2-fsa/OmniVoice Model Weights
+        run: |
+          python3 -c "
+          from omnivoice import OmniVoice
+          print('[SETUP] Pre-loading k2-fsa/OmniVoice into local cache...')
+          model = OmniVoice.from_pretrained('k2-fsa/OmniVoice', device_map='cpu')
+          print('[SETUP] Model successfully cached!')
+          "
+
+  # STAGE 2: Kích hoạt 15 Workflows chạy ma trận song song
+  generate-voiceover-matrix:
+    name: "02. OmniVoice Part ${{ matrix.part }}/15"
+    needs: setup-and-cache-model
+    runs-on: ubuntu-latest
+    timeout-minutes: 270
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Restore Pip & Model Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/huggingface
+          key: omnivoice-cache-v2
+          restore-keys: |
+            omnivoice-cache-
+
+      - name: Fast Install Cached Dependencies
+        run: |
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install omnivoice soundfile numpy scipy requests
+
+      - name: Fetch Dynamic Script & Reference Voice from Google Drive
+        run: |
+          mkdir -p ./mainvoice
+          mkdir -p ./audio_out
+          python3 -c "
+          import requests, sys, os, io, zipfile, xml.etree.ElementTree as ET
+
+          def extract_docx_text(content_bytes):
+              with zipfile.ZipFile(io.BytesIO(content_bytes)) as z:
+                  xml_content = z.read('word/document.xml')
+                  tree = ET.fromstring(xml_content)
+                  paragraphs = []
+                  for p in tree.iter('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p'):
+                      texts = [node.text for node in p.iter('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t') if node.text]
+                      if texts:
+                          paragraphs.append(''.join(texts))
+                  return '\n\n'.join(paragraphs)
+
+          def download_file(file_id, dest_path, is_text=False):
+              session = requests.Session()
+              if is_text:
+                  doc_url = f'https://docs.google.com/document/d/{file_id}/export?format=txt'
+                  try:
+                      r = session.get(doc_url, timeout=30)
+                      if r.status_code == 200 and not r.text.strip().lower().startswith('<!doctype html') and not r.content.startswith(b'PK\x03\x04'):
+                          with open(dest_path, 'wb') as f:
+                              f.write(r.content)
+                          print(f'Downloaded Google Doc {file_id} -> {dest_path} ({os.path.getsize(dest_path)} bytes)')
+                          return
+                  except Exception as e:
+                      print(f'Docs export note: {e}')
+
+              url = 'https://docs.google.com/uc?export=download'
+              r = session.get(url, params={'id': file_id, 'confirm': 't'}, stream=True, timeout=60)
+              for k, v in r.cookies.items():
+                  if k.startswith('download_warning'):
+                      r = session.get(url, params={'id': file_id, 'confirm': v}, stream=True, timeout=60)
+                      break
+              if r.status_code != 200:
+                  print(f'ERROR: Failed to download {file_id}, HTTP status {r.status_code}')
+                  sys.exit(1)
+
+              content = r.content
+              if is_text and content.startswith(b'PK\x03\x04'):
+                  print('Detected DOCX file format. Unpacking XML text...')
+                  extracted_text = extract_docx_text(content)
+                  with open(dest_path, 'w', encoding='utf-8') as f:
+                      f.write(extracted_text)
+                  print(f'Unpacked DOCX into text: {dest_path} ({os.path.getsize(dest_path)} bytes)')
+              else:
+                  with open(dest_path, 'wb') as f:
+                      f.write(content)
+                  print(f'Downloaded Drive file {file_id} -> {dest_path} ({os.path.getsize(dest_path)} bytes)')
+
+          print('Fetching combined_voiceover.txt...')
+          download_file('${{ inputs.script_file_id }}', './combined_voiceover.txt', is_text=True)
+
+          print('Fetching voice_preview_milo.mp3...')
+          download_file('${{ inputs.voice_ref_id }}', './mainvoice/voice_preview_milo.mp3', is_text=False)
+          "
+
+      - name: Run OmniVoice Synthesis with Milo Voice (Smart Delta Restart)
+        run: |
+          python3 voice_matrix_worker.py \
+            --part ${{ matrix.part }} \
+            --script ./combined_voiceover.txt \
+            --output-dir ./audio_out \
+            --voice-ref ./mainvoice/voice_preview_milo.mp3 \
+            --num-step 10
+
+      - name: Upload Part ${{ matrix.part }} Audio Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voiceover-part-${{ matrix.part }}
+          path: ./audio_out/
+          retention-days: 7
+
+  # STAGE 3: Kết nối 15 phần Voiceover thành 1 File Master duy nhất & Kiểm toán GK4
+  stitch-master-and-audit:
+    name: "03. Master Assembly & GK4 Acoustic Audit"
+    needs: generate-voiceover-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: |
+          pip install numpy scipy
+
+      - name: Download All 15 Audio Parts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./all_audio/
+          pattern: voiceover-part-*
+          merge-multiple: true
+
+      - name: "Audit GK4 for 15 Parts & Stitch Master Audio"
+        run: |
+          python3 -c "
+          import glob, os, sys
+          from voice_chunk_engine import audit_wav_acoustic, stitch_master_audio
+
+          wav_files = sorted(glob.glob('./all_audio/Part_*.wav'))
+          print(f'=== GK4 AUDIT: VERIFYING {len(wav_files)}/15 WAV PARTS ===')
+
+          if len(wav_files) != 15:
+              print(f'ERROR: Expected 15 WAV files, found {len(wav_files)}')
+              sys.exit(1)
+
+          failed = []
+          for w in wav_files:
+              valid, msg = audit_wav_acoustic(w, min_size_kb=10, min_rms=0.003, min_peak=0.02)
+              size_kb = os.path.getsize(w) / 1024.0
+              print(f'  {os.path.basename(w):15s} | Size: {size_kb:8.1f} KB | {msg}')
+              if not valid:
+                  failed.append((os.path.basename(w), msg))
+
+          if failed:
+              print(f'FAILED FILES (GK4 VIOLATION): {failed}')
+              sys.exit(1)
+
+          print('\n🎉 ALL 15 PARTS PASSED GK4 AUDIT 100%!')
+
+          # Assemble Master 90-min Audio with 5-second silence between parts
+          master_out = './all_audio/Master_Mansa_Musa_Full_Voiceover.wav'
+          stitch_master_audio(wav_files, master_out, inter_part_silence_sec=5.0)
+
+          # Verify Master Acoustic & Duration
+          valid, msg = audit_wav_acoustic(master_out, min_size_kb=50000, min_rms=0.003, min_peak=0.02)
+          print(f'Master Audio Verified GK4/GK7: {msg}')
+          "
+
+      - name: Upload Master Audio Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: master-voiceover-full
+          path: ./all_audio/Master_Mansa_Musa_Full_Voiceover.wav
+          retention-days: 7

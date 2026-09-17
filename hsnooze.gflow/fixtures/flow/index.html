@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Flow Fixture</title>
+  </head>
+  <body>
+    <main data-testid="flow-ready">
+      <!-- Mirrors the real Flow editor: a contenteditable prompt and a "Create" submit
+           button that enables once the prompt has text, plus result <img> elements. -->
+      <div id="prompt" role="textbox" contenteditable="true" aria-label="Prompt"></div>
+      <button id="create" disabled>arrow_forwardCreate</button>
+      <section id="results"></section>
+    </main>
+    <script>
+      function gflowAttachViewer(tile, mediaName, isVideo) {
+        tile.style.cursor = "pointer";
+        tile.addEventListener("click", () => {
+          // Real Flow navigates to /edit/<id>, replacing any open viewer; emulate that by
+          // dropping a previous overlay so each tile click shows ITS own viewer.
+          document.querySelectorAll('[role=dialog]').forEach((d) => d.remove());
+          const overlay = document.createElement("div");
+          overlay.setAttribute("role", "dialog");
+          // Encode the result identity (and chosen tier) in the bytes so tests can verify the
+          // right result reached disk through the right path — not just that a file exists.
+          const triggerDownload = (tier) => {
+            const blob = new Blob([`${mediaName}:${tier}`], { type: isVideo ? "video/mp4" : "image/png" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = mediaName + (isVideo ? ".mp4" : ".png");
+            document.body.appendChild(a);
+            a.click();
+          };
+          if (isVideo) {
+            // Real Flow's video viewer has a plain Download button (no tier menu) that
+            // downloads the full asset directly.
+            overlay.innerHTML = `<button type="button" data-dl>download Download</button>`;
+            document.body.appendChild(overlay);
+            overlay.querySelector("[data-dl]").addEventListener("click", () => triggerDownload("original"));
+          } else {
+            // Image viewer: a Radix menu trigger offering resolution tiers.
+            overlay.innerHTML = `
+              <button type="button" aria-haspopup="menu" data-dl>download Download</button>
+              <div role="menu" hidden>
+                <div role="menuitem" data-q="original">1K Original size</div>
+                <div role="menuitem" data-q="2k">2K Upscaled</div>
+                <div role="menuitem" data-q="4k">4K Upscaled Upgrade</div>
+              </div>`;
+            document.body.appendChild(overlay);
+            const menu = overlay.querySelector("[role=menu]");
+            overlay.querySelector("[data-dl]").addEventListener("click", () => { menu.hidden = false; });
+            overlay.querySelectorAll("[role=menuitem]").forEach((item) => {
+              item.addEventListener("click", () => {
+                if (item.dataset.q === "4k") return; // gated
+                triggerDownload(item.dataset.q);
+              });
+            });
+          }
+        });
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const delay = Number(params.get("delay") ?? "0");
+      const prompt = document.getElementById("prompt");
+      const create = document.getElementById("create");
+      let generation = 0;
+
+      prompt.addEventListener("input", () => {
+        create.disabled = prompt.textContent.trim().length === 0;
+      });
+
+      create.addEventListener("click", () => {
+        if (create.disabled) return;
+        generation += 1;
+        const currentGeneration = generation;
+        window.setTimeout(() => {
+          const isVideo = params.get("type") === "video";
+          let tile;
+          if (isVideo) {
+            // Video results are matched by a getMediaUrlRedirect src; the URL need not load.
+            tile = document.createElement("video");
+            tile.src = `https://labs.google/fx/api/trpc/media.getMediaUrlRedirect?name=fixture-${currentGeneration}`;
+          } else {
+            // Image results use a data: URL so the fallback context-fetch path can read bytes.
+            tile = document.createElement("img");
+            tile.src = `data:text/plain,fixture generation ${currentGeneration}`;
+          }
+          document.getElementById("results").appendChild(tile);
+          gflowAttachViewer(tile, `fixture-gen-${currentGeneration}`, isVideo);
+        }, delay);
+      });
+    </script>
+  </body>
+</html>

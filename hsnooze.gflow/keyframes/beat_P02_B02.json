@@ -1,0 +1,18 @@
+{
+  "jobId": "beat_P02_B02",
+  "type": "image",
+  "prompt": "Matsuo Tōshichirō in humble scholar robes walking amidst orderly morning flow of Edo craftsmen and merchants, seventeenth-century Edo-period Japan, authentic traditional Japanese timber architecture, sloping ishigaki stone foundations, white shikkui plaster walls, dark ceramic kawara tile roofs, wooden yagura pavilions, sliding paper shoji screens, tatami mats, peaceful Zen garden aesthetics, late-15th-century illuminated manuscript style painting fused with Japanese Edo gold-leaf screen aesthetics (Kano and Rimpa school traditions), tempera and shell-gold accents, flat Japanese perspective, fine brown-ink outlines, strictly authentic feudal Japanese architecture, no European castle battlements, no Western stone towers, no conical medieval turrets, no Gothic fortress walls, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)",
+  "ratio": "16:9",
+  "requestedOutputs": 1,
+  "quality": "original",
+  "characters": [
+    "ref_character_basho_young"
+  ],
+  "ingredients": [
+    "ref_setting_edo_nihonbashi"
+  ],
+  "downloadedAt": "2026-09-12T01:48:15.165Z",
+  "source": "google-flow-browser",
+  "flowUrl": "https://flow.google.com/project/f3cd8a07-c60f-4024-93c4-f4fcc444d454/edit/dd32df56-2f87-4b28-be22-210952ac198c",
+  "status": "downloaded"
+}
