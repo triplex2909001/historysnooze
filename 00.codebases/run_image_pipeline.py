@@ -47,7 +47,11 @@ PROJECTS = {
 GFLOW_DIR = Path("/media/vpsg16gb/Media/historysnooze/hsnooze.gflow")
 SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
 SERVICE_ACCOUNT_PATH = "/media/vpsg16gb/Workspace/Projects/lelehoctiengtrung/marketingtools/service_account.json"
-PROFILES = ["default", "profile_3", "profile_4", "profile_9", "profile_13"]
+# Strictly approved profiles for Google Flow image synthesis
+# FORBIDDEN: default / aleron.dt@gmail.com
+PROFILES = ["profile_13", "profile_3", "profile_4", "profile_9"]
+FORBIDDEN_EMAILS = ["aleron.dt@gmail.com"]
+FORBIDDEN_PROFILES = ["default"]
 
 
 def parse_prompts_file(prompts_path: Path):
