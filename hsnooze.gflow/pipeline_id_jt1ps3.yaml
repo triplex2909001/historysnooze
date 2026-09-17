@@ -1,8 +1,8 @@
 pipeline:
   name: Emperor Nero Keyframe Production
   profiles:
-  - profile_8
   - profile_6
+  - profile_8
   - profile_7
   autoheal: true
   resume: true
@@ -475,7 +475,7 @@ jobs:
   out: /media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze/02. Media Generation/keyframes
 - id: beat_P10_B04
   type: image
-  prompt: Ancient Greek stone amphitheatre at dusk, Emperor Nero standing on the orchestra floor singing with a golden cithara, thousands of spectators listening in torchlight, first-century Imperial Rome (Julio-Claudian Dynasty), authentic classical Roman architecture, monumental marble colonnades, Corinthian columns, Roman fora, Domus Aurea frescoed ceilings and octagonal halls, barrel-vaulted stone basilicas, terracotta-tiled porticos, authentic Roman togas, tunics, and gold laurel wreaths, flat medieval perspective, fine brown-ink outlines, strictly authentic classical Roman antiquity setting, no European medieval castle battlements, no Gothic turrets, no Western knights, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)
+  prompt: Ancient Greek stone amphitheatre at dusk, Emperor Nero standing on the marble stage performing with a golden cithara, thousands of Roman and Greek citizens seated in torchlight, first-century Imperial Rome (Julio-Claudian Dynasty), authentic classical Roman architecture, monumental marble colonnades, Corinthian columns, Roman fora, Domus Aurea frescoed ceilings and octagonal halls, barrel-vaulted stone basilicas, terracotta-tiled porticos, authentic Roman togas, tunics, and gold laurel wreaths, flat medieval perspective, fine brown-ink outlines, strictly authentic classical Roman antiquity setting, no European medieval castle battlements, no Gothic turrets, no Western knights, late-15th-century illuminated manuscript style painting, tempera and shell-gold, flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)
   ratio: '16:9'
   out: /media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze/02. Media Generation/keyframes
 - id: beat_P10_B05
