@@ -47,9 +47,9 @@ PROJECTS = {
 GFLOW_DIR = Path("/media/vpsg16gb/Media/historysnooze/hsnooze.gflow")
 SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
 SERVICE_ACCOUNT_PATH = "/media/vpsg16gb/Workspace/Projects/lelehoctiengtrung/marketingtools/service_account.json"
-# Strictly approved profiles for Google Flow image synthesis
+# Strictly verified approved profiles for Google Flow image synthesis
 # FORBIDDEN: default / aleron.dt@gmail.com
-PROFILES = ["profile_13", "profile_3", "profile_4", "profile_9"]
+PROFILES = ["profile_4", "profile_6", "profile_8", "profile_13"]
 FORBIDDEN_EMAILS = ["aleron.dt@gmail.com"]
 FORBIDDEN_PROFILES = ["default"]
 
@@ -161,9 +161,10 @@ def update_sheet(row_num: int, status="JPEG", image_status="Done"):
         print(f"⚠️ Error updating Google Sheets: {e}")
 
 
-def process_project(proj):
+def process_project(proj, clean: bool = False):
     print("\n" + "=" * 70)
     print(f"🚀 STARTING IMAGE SYNTHESIS FOR: {proj['name']} (Row {proj['row_num']}, ID: {proj['idea_id']})")
+    print(f"Profiles: {', '.join(PROFILES)}")
     print("=" * 70)
 
     preprod_dir = proj["project_root"] / "01. Preproduction"
@@ -171,6 +172,31 @@ def process_project(proj):
     media_dir = proj["project_root"] / "02. Media Generation"
     keyframes_dir = media_dir / "keyframes"
     keyframes_dir.mkdir(parents=True, exist_ok=True)
+
+    if clean:
+        print(f"🧹 CLEANING OLD KEYFRAMES in {keyframes_dir} and GDrive...")
+        for old_f in keyframes_dir.glob("beat_*.*"):
+            try:
+                old_f.unlink()
+            except OSError:
+                pass
+        for cp in [keyframes_dir / "gflow-checkpoint.json", GFLOW_DIR / "keyframes" / "gflow-checkpoint.json", GFLOW_DIR / "images" / "gflow-checkpoint.json"]:
+            if cp.exists():
+                try:
+                    cp.unlink()
+                except OSError:
+                    pass
+        # Clean GDrive keyframes
+        try:
+            cmd_clean_gd = [
+                "rclone", "delete",
+                f"hariinvpsg16gb,root_folder_id={proj['gdrive_folder_id']}:02. Media Generation/keyframes",
+                "--include=beat_*.*"
+            ]
+            subprocess.run(cmd_clean_gd, check=False)
+            print("✅ Google Drive keyframes directory wiped cleanly.")
+        except Exception as e:
+            print(f"⚠️ Warning cleaning GDrive: {e}")
 
     if not prompts_file.exists():
         print(f"❌ Prompts file not found: {prompts_file}")
@@ -226,16 +252,17 @@ def process_project(proj):
 
 def main():
     parser = argparse.ArgumentParser(description="HistorySnooze Image Pipeline Runner")
-    parser.add_argument("--project", choices=["julie", "nero", "all"], default="julie",
-                        help="Target project to generate images for (default: julie)")
+    parser.add_argument("--project", choices=["julie", "nero", "all"], default="nero",
+                        help="Target project to generate images for (default: nero)")
+    parser.add_argument("--clean", action="store_true", help="Wipe old keyframes before starting generation")
     args = parser.parse_args()
 
     if args.project == "all":
         for key, proj in PROJECTS.items():
-            process_project(proj)
+            process_project(proj, clean=args.clean)
     else:
         proj = PROJECTS[args.project]
-        process_project(proj)
+        process_project(proj, clean=args.clean)
 
     print("\n" + "🌟" * 35)
     print("🎉 IMAGE GENERATION TASK FINISHED!")
