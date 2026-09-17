@@ -219,7 +219,6 @@ export class FlowPage implements FlowAutomation {
   // context clutter and "Agent failed" errors on long production pipelines.
   private async ensureProject(projectId?: string): Promise<void> {
     const locators = flowLocators(this.page);
-    if ((await locators.promptBox.count()) > 0) return;
     const targetProject = projectId ?? process.env.GFLOW_PROJECT_ID;
     if (targetProject) {
       await navigateToProject(this.page, targetProject);
@@ -227,10 +226,18 @@ export class FlowPage implements FlowAutomation {
       if ((await locators.promptBox.count()) > 0) return;
     }
     const newProject = locators.newProjectButton.first();
-    if (await newProject.count()) {
+    if (await newProject.isVisible({ timeout: 5000 }).catch(() => false)) {
       await newProject.click().catch(() => undefined);
       await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
       if ((await locators.promptBox.count()) > 0) return;
+    }
+    if ((await locators.promptBox.count()) > 0) {
+      const resultItems = await this.page.locator("img, video").count().catch(() => 0);
+      if (resultItems > 20) {
+        await this.createNewProject().catch(() => undefined);
+        return;
+      }
+      return;
     }
     const existing = this.page.locator('a[href*="/project/"]').first();
     if (await existing.count()) {
@@ -238,6 +245,7 @@ export class FlowPage implements FlowAutomation {
       await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
       if ((await locators.promptBox.count()) > 0) return;
     }
+    await this.createNewProject().catch(() => undefined);
   }
 
   async createNewProject(): Promise<void> {
@@ -563,6 +571,9 @@ export class FlowPage implements FlowAutomation {
         }
         if (/rate limit|unusual activity/i.test(errorText)) {
           throw new RateLimitedError(`Flow displayed a rate limit message: ${errorText}`);
+        }
+        if (/the agent failed|agent failed/i.test(errorText)) {
+          await this.createNewProject().catch(() => undefined);
         }
         throw new GenerationFailedError(`Flow displayed a generation failed message: ${errorText}`);
       }
