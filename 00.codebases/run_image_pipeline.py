@@ -34,6 +34,7 @@ PROJECTS = {
         "row_num": 2,
         "gdrive_folder_id": "1h6DO5D2zZzwFo4mbnWY9z9SZ8WvL2WZV",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Julie d'Aubigny - Julie d'Aubigny - The Swordswoman Who Set Paris Ablaze and Defied the King"),
+        "profiles": ["profile_13", "profile_4", "profile_8"],
     },
     "nero": {
         "name": "Emperor Nero",
@@ -41,16 +42,57 @@ PROJECTS = {
         "row_num": 11,
         "gdrive_folder_id": "1bKhloyCDMMjg2m6XCg2HPlzU5SEw_wbT",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze"),
+        "profiles": ["profile_6", "profile_7", "profile_8"],
     }
 }
 
 GFLOW_DIR = Path("/media/vpsg16gb/Media/historysnooze/hsnooze.gflow")
 SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
 SERVICE_ACCOUNT_PATH = "/media/vpsg16gb/Workspace/Projects/lelehoctiengtrung/marketingtools/service_account.json"
-# Approved profiles for Google Flow image synthesis
-PROFILES = ["profile_6", "profile_7", "profile_8"]
 FORBIDDEN_EMAILS = ["aleron.dt@gmail.com"]
 FORBIDDEN_PROFILES = ["default"]
+
+
+def clean_profile_locks(profile_name: str):
+    """Safely terminate only Chrome processes bound to the specific profile and clean singleton locks."""
+    subprocess.run(["pkill", "-f", f"user-data-dir=.*{profile_name}"], capture_output=True)
+    prof_dir = Path.home() / ".gflow" / "profiles" / profile_name
+    if prof_dir.exists():
+        for lock_file in ["SingletonLock", "SingletonSocket", "SingletonCookie"]:
+            lf = prof_dir / lock_file
+            if lf.exists():
+                try:
+                    lf.unlink(missing_ok=True)
+                except Exception:
+                    pass
+
+
+def check_profile_doctor(profile_name: str) -> bool:
+    """Preflight check to ensure the target profile is logged in and ready on Google Flow."""
+    print(f"🔍 Preflight doctor check for [{profile_name}]...")
+    env = os.environ.copy()
+    env["GFLOW_PROFILES_DIR"] = str(Path.home() / ".gflow" / "profiles")
+    try:
+        res = subprocess.run(
+            ["node", "dist/src/index.js", "doctor", "--profile", profile_name],
+            cwd=str(GFLOW_DIR),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=25
+        )
+        if res.returncode == 0 and "Google Flow session is authenticated and ready" in res.stdout:
+            print(f"✅ Profile [{profile_name}] is authenticated and ready.")
+            return True
+        else:
+            print(f"❌ Profile [{profile_name}] failed preflight check: {res.stdout.strip() or res.stderr.strip()}")
+            return False
+    except subprocess.TimeoutExpired:
+        print(f"⚠️ Profile [{profile_name}] preflight check timed out.")
+        return False
+    except Exception as e:
+        print(f"⚠️ Error checking profile [{profile_name}]: {e}")
+        return False
 
 
 def parse_prompts_file(prompts_path: Path):
@@ -79,7 +121,7 @@ def parse_prompts_file(prompts_path: Path):
     return beats
 
 
-def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_path: Path):
+def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_path: Path, profiles: list):
     jobs = []
     for b in beats:
         jobs.append({
@@ -93,16 +135,16 @@ def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_p
     data = {
         "pipeline": {
             "name": f"{project_name} Keyframe Production",
-            "profiles": PROFILES,
+            "profiles": profiles,
             "autoheal": True,
             "resume": True,
-            "continueOnFailure": True
+            "continueOnFailure": False
         },
         "jobs": jobs
     }
 
     with open(yaml_path, "w", encoding="utf-8") as f:
-        yaml.dump(data, f, sort_keys=False, indent=2, allow_unicode=True)
+        yaml.dump(data, f, sort_keys=False, indent=2, allow_unicode=True, width=10000)
 
     print(f"Generated GFlow Pipeline YAML: {yaml_path} with {len(jobs)} visual jobs.")
 
@@ -110,6 +152,26 @@ def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_p
 def normalize_and_audit_keyframes(keyframes_dir: Path):
     print(f"\nAuditing and normalizing keyframes in {keyframes_dir}...")
     valid_count = 0
+
+    # 0. Unpack any .zip archives from Google Flow downloads
+    for zf in keyframes_dir.glob("beat_*.zip"):
+        m = re.match(r"(beat_P\d{2}_B\d{2})\.zip", zf.name, re.IGNORECASE)
+        if m:
+            base_id = m.group(1)
+            std_jpg = keyframes_dir / f"{base_id}.jpg"
+            try:
+                import zipfile
+                with zipfile.ZipFile(zf, 'r') as z:
+                    imgs = [n for n in z.namelist() if n.lower().endswith(('.jpg', '.jpeg', '.png'))]
+                    if imgs:
+                        imgs.sort(key=lambda x: z.getinfo(x).file_size, reverse=True)
+                        img_data = z.read(imgs[0])
+                        with open(std_jpg, 'wb') as out_f:
+                            out_f.write(img_data)
+                zf.unlink(missing_ok=True)
+            except Exception as e:
+                print(f"⚠️ Error unpacking {zf.name}: {e}")
+
     all_files = list(keyframes_dir.glob("beat_*.*"))
 
     for f in all_files:
@@ -161,9 +223,10 @@ def update_sheet(row_num: int, status="JPEG", image_status="Done"):
 
 
 def process_project(proj, clean: bool = False):
+    profile_candidates = proj.get("profiles", ["profile_6", "profile_8"])
     print("\n" + "=" * 70)
     print(f"🚀 STARTING IMAGE SYNTHESIS FOR: {proj['name']} (Row {proj['row_num']}, ID: {proj['idea_id']})")
-    print(f"Profiles: {', '.join(PROFILES)}")
+    print(f"Profiles: {', '.join(profile_candidates)}")
     print("=" * 70)
 
     preprod_dir = proj["project_root"] / "01. Preproduction"
@@ -205,12 +268,11 @@ def process_project(proj, clean: bool = False):
     print(f"Loaded {len(beats)} visual beats from {prompts_file.name}")
 
     yaml_path = GFLOW_DIR / f"pipeline_{proj['idea_id']}.yaml"
-    generate_pipeline_yaml(proj["name"], beats, keyframes_dir, yaml_path)
+    generate_pipeline_yaml(proj["name"], beats, keyframes_dir, yaml_path, profile_candidates)
     env = os.environ.copy()
     env["GFLOW_PROFILES_DIR"] = str(Path.home() / ".gflow" / "profiles")
 
     # Sequential Single-Profile Execution with Failover (Max 2 retries per profile, then stop)
-    profile_candidates = list(PROFILES)
     current_profile_idx = 0
     max_retries_per_profile = 2
 
@@ -226,6 +288,16 @@ def process_project(proj, clean: bool = False):
             valid_count = normalize_and_audit_keyframes(keyframes_dir)
             if valid_count >= 150:
                 break
+
+            # 1. Preflight doctor check for active profile
+            clean_profile_locks(active_profile)
+            if not check_profile_doctor(active_profile):
+                profile_failed_attempts += 1
+                print(f"⚠️ Preflight check failed for [{active_profile}] (Attempt {profile_failed_attempts}/{max_retries_per_profile}).")
+                clean_profile_locks(active_profile)
+                import time
+                time.sleep(2)
+                continue
 
             print(f"\n[Profile: {active_profile} | Attempt {profile_failed_attempts + 1}/{max_retries_per_profile}] Keyframes: {valid_count}/150")
             cmd = [
@@ -251,7 +323,7 @@ def process_project(proj, clean: bool = False):
             else:
                 profile_failed_attempts += 1
                 print(f"⚠️ No new keyframes generated with {active_profile} (Failed attempt {profile_failed_attempts}/{max_retries_per_profile}).")
-                subprocess.run(["pkill", "-f", "chrome"], capture_output=True)
+                clean_profile_locks(active_profile)
                 import time
                 time.sleep(3)
 
