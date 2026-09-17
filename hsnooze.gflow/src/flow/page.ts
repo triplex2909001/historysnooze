@@ -196,7 +196,7 @@ export class FlowPage implements FlowAutomation {
       const videoSrcs = await this.page.$$eval("video", (vids) =>
         vids
           .map((v) => (v as HTMLVideoElement).currentSrc || (v as HTMLVideoElement).src || v.querySelector("source")?.src || "")
-          .filter((src) => /flow-content\.google\/video|media\.getMediaUrlRedirect|storage\.googleapis|video|data:/i.test(src))
+          .filter((src) => /flow-content\.google\/video|flow\.google\.com\/asb|media\.getMediaUrlRedirect|storage\.googleapis|video|data:/i.test(src))
       );
       if (videoSrcs.length > 0) return videoSrcs;
 
@@ -205,13 +205,13 @@ export class FlowPage implements FlowAutomation {
         (imgs) =>
           imgs
             .map((i) => (i as HTMLImageElement).currentSrc || (i as HTMLImageElement).src)
-            .filter((src) => /flow-content\.google|media\.getMediaUrlRedirect|blob:|data:/i.test(src))
+            .filter((src) => /flow-content\.google|flow\.google\.com\/asb|media\.getMediaUrlRedirect|blob:|data:/i.test(src))
       );
     }
     return this.page.$$eval("img", (imgs) =>
       imgs
         .map((img) => (img as HTMLImageElement).currentSrc || (img as HTMLImageElement).src)
-        .filter((src) => (/flow-content\.google\/image|media\.getMediaUrlRedirect/.test(src) && !/mediaUrlType=/.test(src)) || src.startsWith("data:"))
+        .filter((src) => (/flow-content\.google\/image|flow\.google\.com\/asb|media\.getMediaUrlRedirect/.test(src) && !/mediaUrlType=/.test(src)) || src.startsWith("data:"))
     );
   }
 
@@ -497,18 +497,13 @@ export class FlowPage implements FlowAutomation {
   }
 
   private async submit(): Promise<void> {
+    const box = flowLocators(this.page).promptBox.first();
+    await box.press("Enter").catch(() => undefined);
+
     const submit = flowLocators(this.page).submitButton.first();
-    await submit.waitFor({ state: "visible", timeout: 15000 });
-    const deadline = Date.now() + 15000;
-    while (Date.now() < deadline) {
-      const enabled = await submit.evaluate((b) => !((b as HTMLButtonElement).disabled || b.getAttribute("aria-disabled") === "true")).catch(() => false);
-      if (enabled) break;
-      await this.page.waitForTimeout(300);
+    if (await submit.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await submit.click({ force: true }).catch(() => undefined);
     }
-    await submit.click({ timeout: 2000 }).catch(async () => {
-      await dismissOpenLayers(this.page);
-      await submit.click();
-    });
 
     // Handle Flow agent permission/approval prompt ("Would you like me to kick off this 1 video generation...")
     const approveBtn = this.page
