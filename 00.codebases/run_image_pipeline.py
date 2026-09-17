@@ -184,7 +184,8 @@ def process_project(proj):
 
     cmd = [
         "node", "dist/src/index.js", "run", str(yaml_path),
-        "--output-dir", str(keyframes_dir)
+        "--output-dir", str(keyframes_dir),
+        "--profiles", *PROFILES
     ]
     env = os.environ.copy()
     env["GFLOW_PROFILES_DIR"] = str(Path.home() / ".gflow" / "profiles")
