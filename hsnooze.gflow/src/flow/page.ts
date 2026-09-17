@@ -140,7 +140,7 @@ export class FlowPage implements FlowAutomation {
 
     await this.submit();
 
-    const generationTimeoutSeconds = input.job.timeout ?? (input.job.type === "video" ? 1800 : 900);
+    const generationTimeoutSeconds = input.job.timeout ?? (input.job.type === "video" ? 1800 : 120);
     const newSrcs = await this.waitForResults(before, input.job.outputs, generationTimeoutSeconds * 1000, input.job.type);
 
     const context = this.page.context();
