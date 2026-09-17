@@ -22,6 +22,7 @@ from nero_parts_p04_p06 import P04_BEATS, P05_BEATS, P06_BEATS
 from nero_parts_p07_p09 import P07_BEATS, P08_BEATS, P09_BEATS
 from nero_parts_p10_p12 import P10_BEATS, P11_BEATS, P12_BEATS
 from nero_parts_p13_p15 import P13_BEATS, P14_BEATS, P15_BEATS
+from prompt_builder import build_3tier_nero_prompt
 
 ALL_PARTS = [
     P01_BEATS, P02_BEATS, P03_BEATS,
@@ -112,7 +113,7 @@ for p_idx, p_beats in enumerate(ALL_PARTS, 1):
         p_words += len(narrative.split())
         full_script_md.append(f"{narrative}\n\n")
 
-        prompt_str = f"beat_P{p_idx:02d}_B{b_idx:02d}.jpg: [CHARACTER: {c_ref}] [SETTING: {s_ref}] [PROP: {p_ref}] {scene} --ar 16:9 --style raw --v 6.0"
+        prompt_str = build_3tier_nero_prompt(p_idx, b_idx)
         prompts_text.append(prompt_str)
 
     total_words += p_words
@@ -132,12 +133,19 @@ print(f"✅ Total Script Word Count: {total_words} words (150 beats across 15 pa
 script_md_content = "".join(full_script_md)
 with open(PROJECT_ROOT / "script_full.md", "w", encoding="utf-8") as f:
     f.write(script_md_content)
+with open(PREPROD_DIR / "script_full.md", "w", encoding="utf-8") as f:
+    f.write(script_md_content)
 
-# Save combined_imageprompts.txt
-prompts_file_content = "\n\n".join(prompts_text)
+# Save combined_imageprompts.txt (150 beats 3-tier)
+prompts_file_content = "\n\n".join(prompts_text) + "\n"
+combined_dir = MEDIA_DIR / "combined"
+combined_dir.mkdir(parents=True, exist_ok=True)
+
 with open(PROJECT_ROOT / "combined_imageprompts.txt", "w", encoding="utf-8") as f:
     f.write(prompts_file_content)
 with open(PREPROD_DIR / "combined_imageprompts.txt", "w", encoding="utf-8") as f:
+    f.write(prompts_file_content)
+with open(combined_dir / "combined_imageprompts.txt", "w", encoding="utf-8") as f:
     f.write(prompts_file_content)
 
 # Save outline.json & metadata.json
