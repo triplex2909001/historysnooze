@@ -265,15 +265,18 @@ export class SmartPipelineOrchestrator extends EventEmitter {
     const checkpoint: JobCheckpointState =
       (shouldResume ? await loadCheckpoint(outDir) : null) ?? createInitialCheckpoint(this.options.pipeline, this.activeProfile);
 
-    // If resuming with an active profile that is healthy, respect it; otherwise acquire a healthy profile
+    // If resuming with an active profile that is allowed and healthy, respect it; otherwise acquire a healthy profile
+    const isProfileAllowed = Boolean(!this.options.profiles || this.options.profiles.length === 0 || (checkpoint.activeProfile && this.options.profiles.includes(checkpoint.activeProfile)));
+
     if (
       shouldResume &&
       checkpoint.activeProfile &&
+      isProfileAllowed &&
+      this.profilePool.setActiveProfile(checkpoint.activeProfile) &&
       !this.profilePool.isCoolingDown(checkpoint.activeProfile) &&
       !this.profilePool.isExhausted(checkpoint.activeProfile)
     ) {
       this.activeProfile = checkpoint.activeProfile;
-      this.profilePool.setActiveProfile(checkpoint.activeProfile);
     } else {
       this.activeProfile = await this.profilePool.acquireHealthyProfile();
       checkpoint.activeProfile = this.activeProfile;

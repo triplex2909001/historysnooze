@@ -42,7 +42,7 @@ PROJECTS = {
         "row_num": 11,
         "gdrive_folder_id": "1bKhloyCDMMjg2m6XCg2HPlzU5SEw_wbT",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze"),
-        "profiles": ["profile_8", "profile_6", "profile_7"],
+        "profiles": ["profile_6", "profile_8", "profile_7"],
     }
 }
 

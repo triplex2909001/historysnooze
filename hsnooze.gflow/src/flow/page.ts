@@ -557,7 +557,13 @@ export class FlowPage implements FlowAutomation {
         throw new GenerationFailedError("Flow displayed a generation failed message.");
       }
       if (await this.page.locator("flow-error-tile, .error-tile, .chat-error-card").first().isVisible().catch(() => false)) {
-        const errorText = await this.page.locator("flow-error-tile, .error-tile, .chat-error-card").first().textContent().catch(() => "");
+        const errorText = (await this.page.locator("flow-error-tile, .error-tile, .chat-error-card").first().textContent().catch(() => "")) ?? "";
+        if (/usage limit|credit|quota|try again later/i.test(errorText)) {
+          throw new CreditLimitError(`Flow displayed a credit or quota message: ${errorText}`);
+        }
+        if (/rate limit|unusual activity/i.test(errorText)) {
+          throw new RateLimitedError(`Flow displayed a rate limit message: ${errorText}`);
+        }
         throw new GenerationFailedError(`Flow displayed a generation failed message: ${errorText}`);
       }
 

@@ -14,7 +14,7 @@ export function flowLocators(page: Page) {
     // with Image/Video mode, aspect ratio, output count and model.
     settingsButton: page.locator("button").filter({ hasText: /crop_(16_9|9_16|square|portrait|landscape)/ }),
     rateLimitMarker: page.getByText(/unusual activity|trying again too|rate limit/i),
-    creditMarker: page.getByText(/run out of credits|insufficient credits|no credits left/i),
+    creditMarker: page.getByText(/run out of credits|insufficient credits|no credits left|reached your usage limit|usage limit|quota/i),
     blockedMarker: page.getByText(/can.?t help with|violates|content policy/i),
     failedMarker: page.getByText(/generation failed|couldn.?t generate|something went wrong|the agent failed/i),
     manualActionMarker: page.getByText(/verify your identity|sign in to continue|consent required/i)
