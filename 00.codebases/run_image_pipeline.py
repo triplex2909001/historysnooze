@@ -136,7 +136,6 @@ def sync_to_gdrive(keyframes_dir: Path, gdrive_folder_id: str):
         f"hariinvpsg16gb,root_folder_id={gdrive_folder_id}:02. Media Generation/keyframes",
         "--transfers=8",
         "--include=*.jpg",
-        "--include=*.json",
         "--include=.keep"
     ]
     subprocess.run(cmd, check=True)
@@ -179,7 +178,6 @@ def process_project(proj):
     yaml_path = GFLOW_DIR / f"pipeline_{proj['idea_id']}.yaml"
     generate_pipeline_yaml(proj["name"], beats, keyframes_dir, yaml_path)
 
-    # Run gflow
     cmd = [
         "node", "dist/src/index.js", "run", str(yaml_path),
         "--output-dir", str(keyframes_dir)
@@ -187,19 +185,38 @@ def process_project(proj):
     env = os.environ.copy()
     env["GFLOW_PROFILES_DIR"] = str(Path.home() / ".gflow" / "profiles")
 
-    print(f"\nExecuting gflow with command: {' '.join(cmd)}")
-    proc = subprocess.Popen(cmd, cwd=str(GFLOW_DIR), env=env)
-    ret = proc.wait()
+    # Run gflow in a loop until all 150 keyframes are completed
+    max_pipeline_attempts = 15
+    for attempt in range(1, max_pipeline_attempts + 1):
+        valid_count = normalize_and_audit_keyframes(keyframes_dir)
+        if valid_count >= 150:
+            print(f"🎉 All 150 keyframes verified! Skipping gflow run.")
+            break
 
-    if ret != 0:
-        print(f"⚠️ gflow finished with exit code {ret}")
+        print(f"\n[Pipeline Attempt {attempt}/{max_pipeline_attempts}] Current valid keyframes: {valid_count}/150")
+        print(f"Executing gflow with command: {' '.join(cmd)}")
+        proc = subprocess.Popen(cmd, cwd=str(GFLOW_DIR), env=env)
+        ret = proc.wait()
 
-    valid_count = normalize_and_audit_keyframes(keyframes_dir)
-    sync_to_gdrive(keyframes_dir, proj["gdrive_folder_id"])
-    update_sheet(proj["row_num"], status="JPEG", image_status="Done")
+        if ret != 0:
+            print(f"⚠️ gflow exited with code {ret}, checking progress and preparing resume...")
+            # Clean up any stale chrome locks
+            subprocess.run(["pkill", "-f", "chrome"], capture_output=True)
+            import time
+            time.sleep(3)
 
-    print(f"\n🎉 COMPLETED IMAGE SYNTHESIS FOR {proj['name']} ({valid_count}/150 keyframes)!")
-    return True
+        valid_count = normalize_and_audit_keyframes(keyframes_dir)
+        sync_to_gdrive(keyframes_dir, proj["gdrive_folder_id"])
+
+        if valid_count >= 150:
+            update_sheet(proj["row_num"], status="JPEG", image_status="Done")
+            print(f"\n🎉 FULL PRODUCTION COMPLETED FOR {proj['name']} ({valid_count}/150 keyframes)!")
+            return True
+        else:
+            update_sheet(proj["row_num"], status="JPEG", image_status="In Progress")
+            print(f"🔄 Progress: {valid_count}/150 beats completed. Resuming remaining beats...")
+
+    return valid_count >= 150
 
 
 def main():
