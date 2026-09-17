@@ -15,10 +15,11 @@ from julie_canonical_data import CANONICAL_SCENES
 
 # Master Fixed Style Tail from NotebookLM SSOT
 SIGNATURE_FRAME_TAIL = (
-    "late-15th-century illuminated manuscript style painting, tempera and shell-gold, "
-    "flat medieval perspective, fine brown-ink outlines, full-bleed edge-to-edge painting extending "
-    "to all four edges of the 16:9 canvas, zero margins, no outer paper, no parchment border, "
-    "no decorative frame, no page border, wide cinematic 16:9 composition, ultra-high-resolution (4K)"
+    "fine art tempera painting with burnished shell-gold accents, flat perspective, fine brown-ink outlines, "
+    "full-bleed edge-to-edge painting extending to all four edges of the 16:9 canvas, zero margins, "
+    "no outer paper, no parchment border, no decorative frame, no page border, "
+    "strictly no text, no words, no letters, no typography, no banners, no scrolls, no labels, no watermark, no signatures, "
+    "wide cinematic 16:9 composition, ultra-high-resolution (4K)"
 )
 
 PERIOD_ANCHOR = (
