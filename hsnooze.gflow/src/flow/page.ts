@@ -215,8 +215,8 @@ export class FlowPage implements FlowAutomation {
     );
   }
 
-  // Enter a project so the prompt box exists. If the editor is already showing (real Flow
-  // project or the test fixture), do nothing; otherwise open a fresh project from the dashboard.
+  // Enter a project so the prompt box exists. Prefer opening a fresh project to avoid
+  // context clutter and "Agent failed" errors on long production pipelines.
   private async ensureProject(projectId?: string): Promise<void> {
     const locators = flowLocators(this.page);
     if ((await locators.promptBox.count()) > 0) return;
@@ -226,16 +226,28 @@ export class FlowPage implements FlowAutomation {
       await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
       if ((await locators.promptBox.count()) > 0) return;
     }
+    const newProject = locators.newProjectButton.first();
+    if (await newProject.count()) {
+      await newProject.click().catch(() => undefined);
+      await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
+      if ((await locators.promptBox.count()) > 0) return;
+    }
     const existing = this.page.locator('a[href*="/project/"]').first();
     if (await existing.count()) {
       await existing.click().catch(() => undefined);
       await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
       if ((await locators.promptBox.count()) > 0) return;
     }
+  }
+
+  async createNewProject(): Promise<void> {
+    const locators = flowLocators(this.page);
+    await this.page.goto("https://flow.google.com/", { waitUntil: "domcontentloaded" });
+    await this.page.waitForTimeout(2000);
     const newProject = locators.newProjectButton.first();
-    if (await newProject.count()) {
+    if (await newProject.isVisible({ timeout: 10000 }).catch(() => false)) {
       await newProject.click().catch(() => undefined);
-      await locators.promptBox.first().waitFor({ state: "visible", timeout: 20000 }).catch(() => undefined);
+      await locators.promptBox.first().waitFor({ state: "visible", timeout: 25000 }).catch(() => undefined);
     }
   }
 
