@@ -47,9 +47,8 @@ PROJECTS = {
 GFLOW_DIR = Path("/media/vpsg16gb/Media/historysnooze/hsnooze.gflow")
 SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
 SERVICE_ACCOUNT_PATH = "/media/vpsg16gb/Workspace/Projects/lelehoctiengtrung/marketingtools/service_account.json"
-# Strictly verified approved profiles for Google Flow image synthesis
-# FORBIDDEN: default / aleron.dt@gmail.com
-PROFILES = ["profile_4", "profile_6", "profile_8", "profile_13"]
+# Approved profiles for Google Flow image synthesis
+PROFILES = ["profile_6", "profile_7", "profile_8"]
 FORBIDDEN_EMAILS = ["aleron.dt@gmail.com"]
 FORBIDDEN_PROFILES = ["default"]
 
@@ -207,46 +206,72 @@ def process_project(proj, clean: bool = False):
 
     yaml_path = GFLOW_DIR / f"pipeline_{proj['idea_id']}.yaml"
     generate_pipeline_yaml(proj["name"], beats, keyframes_dir, yaml_path)
-
-    cmd = [
-        "node", "dist/src/index.js", "run", str(yaml_path),
-        "--output-dir", str(keyframes_dir),
-        "--profiles", *PROFILES
-    ]
     env = os.environ.copy()
     env["GFLOW_PROFILES_DIR"] = str(Path.home() / ".gflow" / "profiles")
 
-    # Run gflow in a loop until all 150 keyframes are completed
-    max_pipeline_attempts = 15
-    for attempt in range(1, max_pipeline_attempts + 1):
+    # Sequential Single-Profile Execution with Failover (Max 2 retries per profile, then stop)
+    profile_candidates = list(PROFILES)
+    current_profile_idx = 0
+    max_retries_per_profile = 2
+
+    while current_profile_idx < len(profile_candidates):
+        active_profile = profile_candidates[current_profile_idx]
+        print("\n" + "=" * 60)
+        print(f"👤 ACTIVE SINGLE PROFILE: [{active_profile}] ({current_profile_idx + 1}/{len(profile_candidates)})")
+        print("=" * 60)
+
+        profile_failed_attempts = 0
+
+        while profile_failed_attempts < max_retries_per_profile:
+            valid_count = normalize_and_audit_keyframes(keyframes_dir)
+            if valid_count >= 150:
+                break
+
+            print(f"\n[Profile: {active_profile} | Attempt {profile_failed_attempts + 1}/{max_retries_per_profile}] Keyframes: {valid_count}/150")
+            cmd = [
+                "node", "dist/src/index.js", "run", str(yaml_path),
+                "--output-dir", str(keyframes_dir),
+                "--profiles", active_profile
+            ]
+            print(f"Executing: {' '.join(cmd)}")
+            proc = subprocess.Popen(cmd, cwd=str(GFLOW_DIR), env=env)
+            ret = proc.wait()
+
+            new_valid_count = normalize_and_audit_keyframes(keyframes_dir)
+            sync_to_gdrive(keyframes_dir, proj["gdrive_folder_id"])
+
+            if new_valid_count >= 150:
+                print(f"🎉 All 150 keyframes verified with {active_profile}!")
+                break
+
+            if new_valid_count > valid_count:
+                print(f"✅ Progress made ({valid_count} -> {new_valid_count}/150). Resetting retry counter for {active_profile}.")
+                profile_failed_attempts = 0
+                update_sheet(proj["row_num"], status="JPEG", image_status="In Progress")
+            else:
+                profile_failed_attempts += 1
+                print(f"⚠️ No new keyframes generated with {active_profile} (Failed attempt {profile_failed_attempts}/{max_retries_per_profile}).")
+                subprocess.run(["pkill", "-f", "chrome"], capture_output=True)
+                import time
+                time.sleep(3)
+
         valid_count = normalize_and_audit_keyframes(keyframes_dir)
-        if valid_count >= 150:
-            print(f"🎉 All 150 keyframes verified! Skipping gflow run.")
-            break
-
-        print(f"\n[Pipeline Attempt {attempt}/{max_pipeline_attempts}] Current valid keyframes: {valid_count}/150")
-        print(f"Executing gflow with command: {' '.join(cmd)}")
-        proc = subprocess.Popen(cmd, cwd=str(GFLOW_DIR), env=env)
-        ret = proc.wait()
-
-        if ret != 0:
-            print(f"⚠️ gflow exited with code {ret}, checking progress and preparing resume...")
-            # Clean up any stale chrome locks
-            subprocess.run(["pkill", "-f", "chrome"], capture_output=True)
-            import time
-            time.sleep(3)
-
-        valid_count = normalize_and_audit_keyframes(keyframes_dir)
-        sync_to_gdrive(keyframes_dir, proj["gdrive_folder_id"])
-
         if valid_count >= 150:
             update_sheet(proj["row_num"], status="JPEG", image_status="Done")
             print(f"\n🎉 FULL PRODUCTION COMPLETED FOR {proj['name']} ({valid_count}/150 keyframes)!")
             return True
-        else:
-            update_sheet(proj["row_num"], status="JPEG", image_status="In Progress")
-            print(f"🔄 Progress: {valid_count}/150 beats completed. Resuming remaining beats...")
 
+        print(f"\n⚠️ Profile [{active_profile}] failed after {max_retries_per_profile} retries.")
+        current_profile_idx += 1
+        if current_profile_idx < len(profile_candidates):
+            next_profile = profile_candidates[current_profile_idx]
+            print(f"🔄 FAILING OVER to next account: [{next_profile}]...")
+        else:
+            print(f"❌ ALL {len(profile_candidates)} PROFILES EXHAUSTED after {max_retries_per_profile} retries each! STOPPING EXECUTION.")
+            update_sheet(proj["row_num"], status="JPEG", image_status="Failed")
+            return False
+
+    valid_count = normalize_and_audit_keyframes(keyframes_dir)
     return valid_count >= 150
 
 

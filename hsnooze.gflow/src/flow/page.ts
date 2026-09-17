@@ -489,7 +489,11 @@ export class FlowPage implements FlowAutomation {
     // key events, then type so the contenteditable's framework registers the input.
     await box.press("ControlOrMeta+a").catch(() => undefined);
     await box.press("Backspace").catch(() => undefined);
-    await box.pressSequentially(prompt, { delay: 8 });
+    try {
+      await this.page.keyboard.insertText(prompt);
+    } catch {
+      await box.pressSequentially(prompt, { delay: 0, timeout: 60000 });
+    }
   }
 
   private async submit(): Promise<void> {
