@@ -308,7 +308,8 @@ def process_project(proj, clean: bool = False):
             cmd = [
                 "node", "dist/src/index.js", "run", str(yaml_path),
                 "--output-dir", str(keyframes_dir),
-                "--profiles", active_profile
+                "--profiles", active_profile,
+                "--continue-on-failure"
             ]
             print(f"Executing: {' '.join(cmd)}")
             proc = subprocess.Popen(cmd, cwd=str(GFLOW_DIR), env=env)
