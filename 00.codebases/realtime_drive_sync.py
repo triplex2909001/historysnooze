@@ -53,7 +53,7 @@ def main():
                             # If f is not std_jpg, copy to std_jpg
                             if f != std_jpg and not std_jpg.exists():
                                 shutil.copy2(f, std_jpg)
-                                print(f"🔄 Normalized {f.name} -> {std_jpg.name}")
+                                print(f"🔄 Normalized {f.name} -> {std_jpg.name}", flush=True)
 
                             # Target file to upload is std_jpg
                             target_upload = std_jpg if std_jpg.exists() else f
@@ -66,21 +66,15 @@ def main():
                                 ret = subprocess.run(cmd, capture_output=True, text=True)
                                 if ret.returncode == 0:
                                     uploaded_files.add(target_upload.name)
-                                    print(f"🚀 [INSTANT SYNC] Uploaded {target_upload.name} ({target_upload.stat().st_size // 1024} KB) to Google Drive!")
+                                    print(f"🚀 [INSTANT SYNC] Uploaded {target_upload.name} ({target_upload.stat().st_size // 1024} KB) to Google Drive!", flush=True)
                                 else:
-                                    print(f"⚠️ Failed to upload {target_upload.name}: {ret.stderr}")
+                                    print(f"⚠️ Failed to upload {target_upload.name}: {ret.stderr}", flush=True)
 
-                    # 2. Upload metadata json if exists
-                    elif f.suffix.lower() == ".json" and f.name not in uploaded_files:
-                        gdrive_dest = f"{RCLONE_REMOTE},root_folder_id={GDRIVE_FOLDER_ID}:02. Media Generation/keyframes/{f.name}"
-                        cmd = ["rclone", "copyto", str(f), gdrive_dest]
-                        ret = subprocess.run(cmd, capture_output=True, text=True)
-                        if ret.returncode == 0:
-                            uploaded_files.add(f.name)
-                            print(f"📄 [INSTANT SYNC] Uploaded metadata {f.name} to Google Drive!")
+                    # Note: No .json metadata uploaded to keyframes folder on GDrive per user instruction
+
 
         except Exception as e:
-            print(f"⚠️ Error in sync loop: {e}")
+            print(f"⚠️ Error in sync loop: {e}", flush=True)
 
         time.sleep(3)
 
