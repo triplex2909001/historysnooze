@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
 HistorySnooze Sequential Image Pipeline Runner
-Runs Google Flow image synthesis for projects sequentially:
-1. Julie d'Aubigny (Row 2, id_nbe77s)
-2. Emperor Nero (Row 11, id_jt1ps3)
+Runs Google Flow image synthesis for projects:
+- Julie d'Aubigny (Row 2, id_nbe77s)
+- Emperor Nero (Row 11, id_jt1ps3)
 
 Enforces:
-- 4 rotating Chrome profiles: default, profile_3, profile_4, profile_13
+- 5 rotating Chrome profiles: default, profile_3, profile_4, profile_9, profile_13
 - Zero-leak, autoheal, resume checkpointing
+- Strict bracket tag stripping [CHARACTER:...], [SETTING:...], [PROP:...]
+- Standardized .jpg keyframes (no duplicate .jpeg)
 - GK3 visual audit (file size >= 30KB, valid 16:9 JPEG)
 - Automatic Google Drive sync via rclone
 - Google Sheets master dashboard update
@@ -19,32 +21,33 @@ import re
 import yaml
 import json
 import shutil
+import argparse
 import subprocess
 from pathlib import Path
 from datetime import datetime
 import gspread
 
-PROJECTS = [
-    {
+PROJECTS = {
+    "julie": {
         "name": "Julie d'Aubigny",
         "idea_id": "id_nbe77s",
         "row_num": 2,
         "gdrive_folder_id": "1h6DO5D2zZzwFo4mbnWY9z9SZ8WvL2WZV",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Julie d'Aubigny - Julie d'Aubigny - The Swordswoman Who Set Paris Ablaze and Defied the King"),
     },
-    {
+    "nero": {
         "name": "Emperor Nero",
         "idea_id": "id_jt1ps3",
         "row_num": 11,
         "gdrive_folder_id": "1bKhloyCDMMjg2m6XCg2HPlzU5SEw_wbT",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze"),
     }
-]
+}
 
 GFLOW_DIR = Path("/media/vpsg16gb/Media/historysnooze/hsnooze.gflow")
 SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
 SERVICE_ACCOUNT_PATH = "/media/vpsg16gb/Workspace/Projects/lelehoctiengtrung/marketingtools/service_account.json"
-PROFILES = ["default", "profile_3", "profile_4", "profile_13"]
+PROFILES = ["default", "profile_3", "profile_4", "profile_9", "profile_13"]
 
 
 def parse_prompts_file(prompts_path: Path):
@@ -61,8 +64,14 @@ def parse_prompts_file(prompts_path: Path):
             raw_id = line[:colon_idx].strip()
             prompt = line[colon_idx + 1:].strip()
             clean_id = re.sub(r"\.(jpg|jpeg|png|webp)$", "", raw_id, flags=re.IGNORECASE)
+
+            # Strip bracket tags like [CHARACTER: ...], [SETTING: ...], [PROP: ...]
+            clean_prompt = re.sub(r"\[(CHARACTER|SETTING|PROP|INGREDIENT):\s*[^\]]+\]", "", prompt).strip()
             # Remove midjourney flags like --ar 16:9 --style raw --v 6.0
-            clean_prompt = re.sub(r"--(?:ar|style|v|s|q)\s+[^\s]+", "", prompt).strip()
+            clean_prompt = re.sub(r"--(?:ar|style|v|s|q)\s+[^\s]+", "", clean_prompt).strip()
+            # Normalize multiple spaces
+            clean_prompt = re.sub(r"\s+", " ", clean_prompt).strip()
+
             beats.append({"id": clean_id, "prompt": clean_prompt})
     return beats
 
@@ -106,19 +115,16 @@ def normalize_and_audit_keyframes(keyframes_dir: Path):
             if m:
                 base_id = m.group(1)
                 std_jpg = keyframes_dir / f"{base_id}.jpg"
-                std_jpeg = keyframes_dir / f"{base_id}.jpeg"
 
-                # If f is not already std_jpg, copy/link
+                # If f is not already std_jpg, move/rename to std_jpg
                 if f != std_jpg and not std_jpg.exists():
                     shutil.copy2(f, std_jpg)
-                if f != std_jpeg and not std_jpeg.exists():
-                    shutil.copy2(f, std_jpeg)
 
                 size_kb = std_jpg.stat().st_size / 1024.0 if std_jpg.exists() else f.stat().st_size / 1024.0
                 if size_kb >= 30.0:
                     valid_count += 1
 
-    print(f"✅ Verified {valid_count} normalized beat keyframes (>= 30KB).")
+    print(f"✅ Verified {valid_count} normalized beat keyframes (.jpg >= 30KB).")
     return valid_count
 
 
@@ -130,8 +136,8 @@ def sync_to_gdrive(keyframes_dir: Path, gdrive_folder_id: str):
         f"hariinvpsg16gb,root_folder_id={gdrive_folder_id}:02. Media Generation/keyframes",
         "--transfers=8",
         "--include=*.jpg",
-        "--include=*.jpeg",
-        "--include=*.png"
+        "--include=*.json",
+        "--include=.keep"
     ]
     subprocess.run(cmd, check=True)
     print("✅ Keyframes successfully synced to Google Drive!")
@@ -143,10 +149,6 @@ def update_sheet(row_num: int, status="Image", image_status="Done"):
         sh = gc.open_by_key(SHEET_ID)
         ws = sh.worksheet("Pipeline")
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        # Col 4: Status
-        # Col 10: Image_Mode
-        # Col 11: Image
-        # Col 15: Updated_At
         ws.update_cell(row_num, 4, status)
         ws.update_cell(row_num, 10, "Automatic")
         ws.update_cell(row_num, 11, image_status)
@@ -201,10 +203,20 @@ def process_project(proj):
 
 
 def main():
-    for proj in PROJECTS:
+    parser = argparse.ArgumentParser(description="HistorySnooze Image Pipeline Runner")
+    parser.add_argument("--project", choices=["julie", "nero", "all"], default="julie",
+                        help="Target project to generate images for (default: julie)")
+    args = parser.parse_args()
+
+    if args.project == "all":
+        for key, proj in PROJECTS.items():
+            process_project(proj)
+    else:
+        proj = PROJECTS[args.project]
         process_project(proj)
+
     print("\n" + "🌟" * 35)
-    print("🎉 ALL SEQUENTIAL IMAGE GENERATION TASKS COMPLETED!")
+    print("🎉 IMAGE GENERATION TASK FINISHED!")
     print("🌟" * 35 + "\n")
 
 
