@@ -42,7 +42,7 @@ PROJECTS = {
         "row_num": 11,
         "gdrive_folder_id": "1bKhloyCDMMjg2m6XCg2HPlzU5SEw_wbT",
         "project_root": Path("/media/vpsg16gb/Media/historysnooze/output/Emperor Nero - Emperor Nero - The Darkest Midnight Before the Fall of Rome _ The History Snooze"),
-        "profiles": ["profile_6", "profile_7", "profile_8"],
+        "profiles": ["profile_8", "profile_6", "profile_7"],
     }
 }
 
@@ -138,7 +138,7 @@ def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_p
             "profiles": profiles,
             "autoheal": True,
             "resume": True,
-            "continueOnFailure": False
+            "continueOnFailure": True
         },
         "jobs": jobs
     }
@@ -151,10 +151,10 @@ def generate_pipeline_yaml(project_name: str, beats: list, out_dir: Path, yaml_p
 
 def normalize_and_audit_keyframes(keyframes_dir: Path):
     print(f"\nAuditing and normalizing keyframes in {keyframes_dir}...")
-    valid_count = 0
+    valid_beats = set()
 
     # 0. Unpack any .zip archives from Google Flow downloads
-    for zf in keyframes_dir.glob("beat_*.zip"):
+    for zf in list(keyframes_dir.glob("beat_*.zip")):
         m = re.match(r"(beat_P\d{2}_B\d{2})\.zip", zf.name, re.IGNORECASE)
         if m:
             base_id = m.group(1)
@@ -181,15 +181,20 @@ def normalize_and_audit_keyframes(keyframes_dir: Path):
                 base_id = m.group(1)
                 std_jpg = keyframes_dir / f"{base_id}.jpg"
 
-                # If f is not already std_jpg, move/rename to std_jpg
-                if f != std_jpg and not std_jpg.exists():
-                    shutil.copy2(f, std_jpg)
+                # Standardize to std_jpg and delete redundant alternative formats
+                if f != std_jpg:
+                    if not std_jpg.exists() or std_jpg.stat().st_size < 30 * 1024:
+                        shutil.copy2(f, std_jpg)
+                    try:
+                        f.unlink()
+                    except OSError:
+                        pass
 
-                size_kb = std_jpg.stat().st_size / 1024.0 if std_jpg.exists() else f.stat().st_size / 1024.0
-                if size_kb >= 30.0:
-                    valid_count += 1
+                if std_jpg.exists() and (std_jpg.stat().st_size / 1024.0) >= 30.0:
+                    valid_beats.add(base_id)
 
-    print(f"✅ Verified {valid_count} normalized beat keyframes (.jpg >= 30KB).")
+    valid_count = len(valid_beats)
+    print(f"✅ Verified {valid_count}/150 unique normalized beat keyframes (.jpg >= 30KB).")
     return valid_count
 
 

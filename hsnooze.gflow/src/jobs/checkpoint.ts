@@ -193,11 +193,35 @@ export async function loadCheckpoint(
     // Verify artifact files physically exist on disk
     if (options?.verifyArtifactsOnDisk !== false) {
       for (const [jobId, record] of Object.entries(state.completedJobs)) {
-        const missing = record.artifacts.find((p) => !existsSync(p));
-        if (missing) {
-          console.warn(
-            `[gflow:checkpoint] Artifact '${missing}' for completed job '${jobId}' is missing on disk. Invalidating cached status.`
-          );
+        let valid = true;
+        const resolvedArtifacts: string[] = [];
+        for (const p of record.artifacts) {
+          if (existsSync(p)) {
+            resolvedArtifacts.push(p);
+          } else {
+            const dir = dirname(p);
+            const candidates = [
+              join(dir, `${jobId}.jpg`),
+              join(dir, `${jobId}.jpeg`),
+              join(dir, `${jobId}.png`),
+              join(dir, `${jobId}.webp`),
+              join(dir, `${jobId}.mp4`)
+            ];
+            const found = candidates.find((c) => existsSync(c));
+            if (found) {
+              resolvedArtifacts.push(found);
+            } else {
+              valid = false;
+              console.warn(
+                `[gflow:checkpoint] Artifact '${p}' for completed job '${jobId}' is missing on disk. Invalidating cached status.`
+              );
+              break;
+            }
+          }
+        }
+        if (valid && resolvedArtifacts.length > 0) {
+          record.artifacts = resolvedArtifacts;
+        } else {
           delete state.completedJobs[jobId];
           if (state.completed) {
             state.completed = state.completed.filter((id) => id !== jobId);

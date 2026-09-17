@@ -161,6 +161,30 @@ async function saveDownload(input: DownloadInput, download: Download): Promise<D
   const ext = extname(download.suggestedFilename()) || (input.type === "video" ? ".mp4" : ".png");
   const assetPath = join(input.outDir, `${input.basename}${ext}`);
   await download.saveAs(assetPath);
+
+  if (ext.toLowerCase() === ".zip") {
+    try {
+      const { execSync } = await import("node:child_process");
+      const { readdir, unlink, copyFile, rm } = await import("node:fs/promises");
+      const tempExtractDir = join(input.outDir, `_temp_${input.basename}`);
+      await mkdir(tempExtractDir, { recursive: true });
+      execSync(`unzip -q -o "${assetPath}" -d "${tempExtractDir}"`);
+      const extractedFiles = await readdir(tempExtractDir);
+      const imgFile = extractedFiles.find((f) => /\.(jpg|jpeg|png|webp|mp4)$/i.test(f));
+      if (imgFile) {
+        const outExt = extname(imgFile) || ".jpg";
+        const finalPath = join(input.outDir, `${input.basename}${outExt}`);
+        await copyFile(join(tempExtractDir, imgFile), finalPath);
+        await rm(tempExtractDir, { recursive: true, force: true }).catch(() => undefined);
+        await unlink(assetPath).catch(() => undefined);
+        return { assetPath: finalPath };
+      }
+      await rm(tempExtractDir, { recursive: true, force: true }).catch(() => undefined);
+    } catch {
+      // Fallback to returning original assetPath
+    }
+  }
+
   return { assetPath };
 }
 

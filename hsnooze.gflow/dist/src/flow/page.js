@@ -424,7 +424,8 @@ export class FlowPage {
         await box.press("Backspace").catch(() => undefined);
         try {
             await this.page.keyboard.insertText(prompt);
-        } catch {
+        }
+        catch {
             await box.pressSequentially(prompt, { delay: 0, timeout: 60000 });
         }
     }

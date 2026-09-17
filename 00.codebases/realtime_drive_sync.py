@@ -39,7 +39,27 @@ def main():
 
     while True:
         try:
-            if KEYFRAMES_DIR.exists():
+                # 0. Unpack any .zip files from Google Flow
+                for zf in KEYFRAMES_DIR.glob("beat_*.zip"):
+                    m = re.match(r"(beat_P\d{2}_B\d{2})\.zip", zf.name, re.IGNORECASE)
+                    if m:
+                        base_id = m.group(1)
+                        std_jpg = KEYFRAMES_DIR / f"{base_id}.jpg"
+                        try:
+                            import zipfile
+                            with zipfile.ZipFile(zf, 'r') as z:
+                                imgs = [n for n in z.namelist() if n.lower().endswith(('.jpg', '.jpeg', '.png'))]
+                                if imgs:
+                                    imgs.sort(key=lambda x: z.getinfo(x).file_size, reverse=True)
+                                    img_data = z.read(imgs[0])
+                                    with open(std_jpg, 'wb') as out_f:
+                                        out_f.write(img_data)
+                                    print(f"📦 Unpacked {zf.name} -> {std_jpg.name} ({len(img_data)//1024} KB)", flush=True)
+                            # Remove zip after successful extraction
+                            zf.unlink(missing_ok=True)
+                        except Exception as ez:
+                            print(f"⚠️ Error unpacking {zf.name}: {ez}", flush=True)
+
                 all_files = list(KEYFRAMES_DIR.glob("beat_*.*"))
 
                 for f in all_files:

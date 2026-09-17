@@ -2,9 +2,9 @@ pipeline:
   name: Julie d'Aubigny Keyframe Production
   profiles:
   - profile_13
-  - profile_3
   - profile_4
-  - profile_9
+  - profile_6
+  - profile_8
   autoheal: true
   resume: true
   continueOnFailure: true
