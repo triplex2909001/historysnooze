@@ -65,6 +65,9 @@ jobs:
       - name: Checkout Code
         if: steps.filter.outputs.skip != 'true'
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Set up Python 3.10
         if: steps.filter.outputs.skip != 'true'
@@ -82,7 +85,11 @@ jobs:
         if: steps.filter.outputs.skip != 'true'
         run: |
           pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f "requirements.txt" ]; then
+            pip install -r requirements.txt
+          elif [ -f "hsnooze.render/requirements.txt" ]; then
+            pip install -r hsnooze.render/requirements.txt
+          fi
 
       - name: Render Part ${{ matrix.part }} (Ken Burns ASMR + Dim-the-Lights)
         if: steps.filter.outputs.skip != 'true'
@@ -90,6 +97,7 @@ jobs:
           RELEASE_TAG: ${{ inputs.release_tag }}
           PROJECT_FOLDER_ID: ${{ inputs.project_folder_id }}
         run: |
+          cd hsnooze.render
           python3 render_single_part.py "./project_assets" ${{ matrix.part }} 4 --cpu
 
       - name: Upload Chunk Artifact (Part ${{ matrix.part }})
@@ -97,7 +105,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chunk-part-${{ matrix.part }}
-          path: output/chunk_part_*.mp4
+          path: |
+            hsnooze.render/output/chunk_part_*.mp4
+            output/chunk_part_*.mp4
           retention-days: 7
 
   # ============================================================================
@@ -113,6 +123,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
@@ -124,6 +137,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          if [ -f "requirements.txt" ]; then
+            pip install -r requirements.txt
+          elif [ -f "hsnooze.render/requirements.txt" ]; then
+            pip install -r hsnooze.render/requirements.txt
+          fi
+
       - name: Download All 15 Part Chunks
         uses: actions/download-artifact@v4
         with:
@@ -133,7 +155,9 @@ jobs:
 
       - name: Execute Stream Copy Master Assembly & GK7 Audit
         run: |
-          python3 assemble_master.py ./all_chunks ./output/master_final_90min.mp4
+          mkdir -p output
+          cd hsnooze.render
+          python3 assemble_master.py ../all_chunks ../output/master_final_90min.mp4
 
       - name: Upload Final Master MP4 Artifact
         uses: actions/upload-artifact@v4
