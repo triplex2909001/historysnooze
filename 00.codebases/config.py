@@ -33,6 +33,14 @@ BEAT_MAX_DURATION_SEC = 45.0
 CHUNK_MIN_WORDS = 15
 CHUNK_MAX_WORDS = 35
 
+# Sleep Mood & Ambient Shading
+SLEEP_DARK_OPACITY = 0.40   # 40% dark overlay after 'dim the lights'
+SLEEP_BRIGHTNESS = -0.18
+SLEEP_GAMMA = 0.72
+SLEEP_CONTRAST = 0.88
+CAMPFIRE_AUDIO_PATH = "assets/ambient_campfire_loop.wav"
+CAMPFIRE_VOLUME = 0.14      # Subtle crackle under voiceover (-28 LUFS target)
+
 # Google Workspace Integration IDs
 PARENT_FOLDER_ID = "1UGkrUFQ62ghj1Lquy1HVsKIYR9nO60zf"  # 'historysnooze posts'
 DASHBOARD_SHEET_ID = "1x2tcR4WyHXj_cvHjpPFWNsrtelkimUXJXNTw9hPbVeo"
